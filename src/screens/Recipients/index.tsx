@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { ActivityIndicator } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,6 +29,7 @@ const RecipientsScreen = () => {
 
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResult, setSearchResult] = useState<Result | null>(null);
+    const [isTyping, setIsTyping] = useState(false);
 
     const navigation = useNavigation();
 
@@ -57,6 +59,7 @@ const RecipientsScreen = () => {
             } else {
                 setSearchResult(null);
             }
+            setIsTyping(false);
         }, 300),
         []
     );
@@ -90,9 +93,15 @@ const RecipientsScreen = () => {
                     placeholder="BaseName or Address"
                     placeholderTextColor="#666"
                     value={searchQuery}
-                    onChangeText={(text) => setSearchQuery(text.toLowerCase())}
+                    onChangeText={(text) => {
+                        setSearchQuery(text.toLowerCase());
+                        setIsTyping(true);
+                        debouncedSearch(text.toLowerCase());
+                    }}
                 />
-                {searchQuery ? (
+                {isTyping ? (
+                    <ActivityIndicator size="small" color="#fff" style={styles.loadingIcon} />
+                ) : searchQuery ? (
                     <TouchableOpacity style={styles.clearButton} onPress={clearSearch}>
                         <Ionicons name="close" size={22} color="#fff" />
                     </TouchableOpacity>
