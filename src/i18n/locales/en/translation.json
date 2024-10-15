@@ -40,7 +40,9 @@
   },
   "recipients": {
     "title": "Send money to?",
-    "searchPlaceholder": "Search by name..."
+    "searchPlaceholder": "BaseName or Address",
+    "searchResultLabel": "Found",
+    "pasteButtonText": "Paste"
   },
   "sentReceipt": {
     "headerText": "Sent",

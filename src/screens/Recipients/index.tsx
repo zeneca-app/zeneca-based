@@ -90,7 +90,7 @@ const RecipientsScreen = () => {
             <View style={styles.searchContainer}>
                 <TextInput
                     style={styles.searchInput}
-                    placeholder="BaseName or Address"
+                    placeholder={t("recipients.searchPlaceholder")}
                     placeholderTextColor="#666"
                     value={searchQuery}
                     onChangeText={(text) => {
@@ -107,7 +107,7 @@ const RecipientsScreen = () => {
                     </TouchableOpacity>
                 ) : (
                     <TouchableOpacity style={styles.pasteButton}>
-                        <Text style={styles.pasteButtonText}>Paste</Text>
+                        <Text style={styles.pasteButtonText}>{t("recipients.pasteButtonText")}</Text>
                     </TouchableOpacity>
                 )}
             </View>
@@ -125,9 +125,8 @@ const RecipientsScreen = () => {
                 <View style={styles.resultContainer}>
                     <View style={styles.resultIconContainer}>
                         <Ionicons name="checkmark-circle" size={22} color="#666" />
-                        <Text style={styles.resultLabel}>Matching</Text>
+                        <Text style={styles.resultLabel}>{t("recipients.searchResultLabel")}</Text>
                     </View>
-
                     <TouchableOpacity style={styles.resultItem}>
                         <View style={styles.walletIconContainer}>
                             <Ionicons name="wallet-outline" size={24} color="#666" />
@@ -172,6 +171,9 @@ const styles = StyleSheet.create({
         color: 'white',
         marginBottom: 20,
         fontFamily: "Manrope_500Medium"
+    },
+    loadingIcon: {
+        marginRight: 10,
     },
     backButton: {
         marginLeft: 20,

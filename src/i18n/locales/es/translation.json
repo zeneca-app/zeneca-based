@@ -40,7 +40,9 @@
   },
   "recipients": {
     "title": "A quién le vas a enviar dinero",
-    "searchPlaceholder": "Buscar por nombre..."
+    "searchResultLabel": "Encontrado",
+    "pasteButtonText": "Pegar",
+    "searchPlaceholder": "BaseName o Dirección"
   },
   "sentReceipt": {
     "headerText": "Enviaste",
