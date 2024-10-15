@@ -9,6 +9,7 @@ export type RootStackParamList = {
   LoginWithEmail: undefined;
   EmailOtpValidation: undefined;
   DepositCrypto: undefined;
+  Recipients: undefined;
 };
 
 declare global {

@@ -70,10 +70,10 @@ const HomeScreen = () => {
     navigation.navigate("Login");
   }
 
- /*  const onSend = useCallback(
+  const onSend = useCallback(
     () => navigation.navigate("Recipients"),
     [navigation],
-  ); */
+  );
 
   const renderTransaction = useCallback(({ item }: { item: any }) => {
     const isWithdrawal = item.withdrawal !== null;
@@ -161,7 +161,7 @@ const HomeScreen = () => {
                 <Ionicons name="arrow-down" size={20} color="white" />
                 <Text style={styles.buttonText}>{t("home.depositActionText")}</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.sendButton}>
+              <TouchableOpacity style={styles.sendButton} onPress={onSend}>
                 <Feather name="arrow-up-right" size={20} color="white" />
                 <Text style={styles.buttonText}>{t("home.sendActionText")}</Text>
               </TouchableOpacity>

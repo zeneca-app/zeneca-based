@@ -26,6 +26,13 @@ import { getWalletClient } from "../lib/smart-accounts";
 const transportUrl = (chain: Chain) =>
   `https://api.pimlico.io/v2/${chain.id}/rpc?apikey=${process.env.EXPO_PUBLIC_PIMLICO_API_KEY}`;
 
+export function getChainPublicClient(chain: Chain) {
+  return createPublicClient({
+    chain: chain,
+    transport: http(),
+  });
+}
+
 export const publicClient = createPublicClient({
   transport: http("https://rpc.ankr.com/base_sepolia"),
 });
@@ -62,7 +69,7 @@ export const getPimlicoSmartAccountClient = async (
     middleware: {
       gasPrice: async () =>
         (await pimlicoBundlerClient(chain).getUserOperationGasPrice()).fast,
-      sponsorUserOperation: paymasterClient(chain).sponsorUserOperation, 
+      sponsorUserOperation: paymasterClient(chain).sponsorUserOperation,
     },
   });
 };

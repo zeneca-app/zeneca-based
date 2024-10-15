@@ -24,7 +24,7 @@ import LoginOptions from "./screens/Login/LoginOptions";
 import LoginWithEmail from "./screens/Login/LoginWithEmail";
 import EmailOtpValidationScreen from "./screens/Login/EmailOtpValidation";
 import DepositCrypto from "./screens/Deposit/DepositCrypto";
-
+import Recipients from "./screens/Recipients";
 
 const APP_ID = process.env.EXPO_PUBLIC_PRIVY_APP_ID ?? "";
 const CLIENT_ID = process.env.EXPO_PUBLIC_PRIVY_CLIENT_ID ?? "";
@@ -87,6 +87,12 @@ const AppIndex = () => {
                     options={{ headerShown: false }}
                     name="Home"
                     component={HomeScreen}
+                  />
+
+                  <Stack.Screen
+                    options={{ headerShown: false }}
+                    name="Recipients"
+                    component={Recipients}
                   />
 
 
