@@ -1,0 +1,60 @@
+{
+  "login": {
+    "description_line_1": "Global money",
+    "description_line_2": "like a local",
+    "signUpButton": "Open my account!",
+    "signInButton": "Sign in"
+  },
+  "loginOptions": {
+    "emailOption": "Continue with email",
+    "googleOption": "Continue with Google",
+    "appleOption": "Continue with Apple",
+    "terms": "By continuing, you accept the",
+    "termsLink": "Terms of use"
+  },
+  "loginWithEmail": {
+    "title": "What's your email?",
+    "emailLabel": "Email",
+    "continueButton": "Continue",
+    "errorText": "Invalid email"
+  },
+  "depositCrypto": {
+    "title": "Deposit with Crypto",
+    "addressLabel": "Wallet address",
+    "infoText": "This address can only receive USDC on Base",
+    "disclaimerText": "Make sure the network is the same as the one from the wallet you are sending from or you could lose your funds.",
+    "addressCopied": "Address copied to clipboard"
+  },
+  "emailOtpValidation": {
+    "title": "Enter the verification code",
+    "subtitle": "We sent you one to",
+    "continueButton": "Verify and continue"
+  },
+  "home": {
+    "depositActionText": "Deposit",
+    "sendActionText": "Send",
+    "currency": "USD",
+    "empty_transactions": "No transactions",
+    "date_format": "MMM d",
+    "transactions": "Transactions"
+  },
+  "recipients": {
+    "title": "Send money to?",
+    "searchPlaceholder": "Search by name..."
+  },
+  "sentReceipt": {
+    "headerText": "Sent",
+    "recipient_label": "to",
+    "date": "Date",
+    "accountNumber": "Account number",
+    "reference": "Reference",
+    "status": "Status",
+    "fee": "Fee",
+    "total": "Total",
+    "doneButtonText": "Done"
+  },
+  "faceId": {
+    "prompt": "Confirm with your Face ID",
+    "fallback": "Use passcode"
+  }
+}

@@ -1,0 +1,1728 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "zeneca-sandbox", "version": "0.1.0" },
+  "paths": {
+    "/v0/login_or_create": {
+      "post": {
+        "tags": ["login"],
+        "summary": "Login Or Create",
+        "operationId": "login-login_or_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginEmailOtpIn" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginEmailOtpOut" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/auth": {
+      "post": {
+        "tags": ["login"],
+        "summary": "Authenticate",
+        "operationId": "login-authenticate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EmailAuthIn" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Authenticated" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/customers/me": {
+      "get": {
+        "tags": ["customers"],
+        "summary": "Get Customer",
+        "description": "Get current user.",
+        "operationId": "customers-get_customer",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerRead" }
+              }
+            }
+          }
+        },
+        "security": [{ "HTTPBearer": [] }]
+      }
+    },
+    "/v0/customers/": {
+      "post": {
+        "tags": ["customers"],
+        "summary": "Create Customer",
+        "operationId": "customers-create_customer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CustomerCreateIn" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerRead" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/customers/balance": {
+      "get": {
+        "tags": ["customers"],
+        "summary": "Get Balance",
+        "description": "Get current user balance.",
+        "operationId": "customers-get_balance",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Balance" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/quotes/": {
+      "post": {
+        "tags": ["quotes"],
+        "summary": "Create Quote",
+        "operationId": "quotes-create_quote",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/QuoteRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/QuoteRead" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/quotes/{quote_id}": {
+      "get": {
+        "tags": ["quotes"],
+        "summary": "Get Quote",
+        "operationId": "quotes-get_quote",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/QuoteRead" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/recipients/{recipient_id}": {
+      "get": {
+        "tags": ["recipients"],
+        "summary": "Get Recipient",
+        "operationId": "recipients-get_recipient",
+        "parameters": [
+          {
+            "name": "recipient_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Recipient Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RecipientRead" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/recipients/": {
+      "get": {
+        "tags": ["recipients"],
+        "summary": "Get Recipients",
+        "operationId": "recipients-get_recipients",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RecipientReadWithExternalAccount"
+                  },
+                  "type": "array",
+                  "title": "Response Recipients-Get Recipients"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["recipients"],
+        "summary": "Create Recipient",
+        "operationId": "recipients-create_recipient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RecipientRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RecipientRead" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/banks/": {
+      "get": {
+        "tags": ["banks"],
+        "summary": "Get Banks",
+        "operationId": "banks-get_banks",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "query",
+            "required": true,
+            "schema": { "$ref": "#/components/schemas/Country" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Bank" },
+                  "title": "Response Banks-Get Banks"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/transfers/": {
+      "get": {
+        "tags": ["transfers"],
+        "summary": "Get Transfers",
+        "operationId": "transfers-get_transfers",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/TransferRead" },
+                  "type": "array",
+                  "title": "Response Transfers-Get Transfers"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["transfers"],
+        "summary": "Create Transfer",
+        "operationId": "transfers-create_transfer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TransferRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TransferRead" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/transfers/{transaction_id}": {
+      "get": {
+        "tags": ["transfers"],
+        "summary": "Get Transfer",
+        "operationId": "transfers-get_transfer",
+        "parameters": [
+          {
+            "name": "transaction_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Transaction Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TransferRead" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/webhooks/koywe": {
+      "post": {
+        "tags": ["webhooks"],
+        "summary": "New Event Received",
+        "operationId": "webhooks-new_event_received",
+        "responses": { "204": { "description": "Successful Response" } }
+      }
+    },
+    "/v0/countries/": {
+      "get": {
+        "tags": ["countries"],
+        "summary": "Get Countries",
+        "operationId": "countries-get_countries",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/CountryBase" },
+                  "type": "array",
+                  "title": "Response Countries-Get Countries"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/users/me": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get User",
+        "description": "Get current user.",
+        "operationId": "users-get_user",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          }
+        },
+        "security": [{ "HTTPBearer": [] }]
+      }
+    },
+    "/v0/users/": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create User",
+        "operationId": "users-create_user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserCreateIn" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/users/{user_id}/account": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create Account",
+        "operationId": "users-create_account",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid", "title": "User Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AccountCreateIn" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Account" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "status": { "type": "string", "title": "Status" },
+          "country": { "type": "string", "title": "Country" },
+          "category": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Category"
+          },
+          "person_type": { "type": "string", "title": "Person Type" },
+          "user_id": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "User Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": ["name", "status", "country", "person_type", "user_id"],
+        "title": "Account"
+      },
+      "AccountCreateIn": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "country": { "$ref": "#/components/schemas/CountryIso2" },
+          "category": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Category"
+          },
+          "person_type": { "$ref": "#/components/schemas/PersonType" }
+        },
+        "type": "object",
+        "required": ["name", "country", "person_type"],
+        "title": "AccountCreateIn"
+      },
+      "Address": {
+        "properties": {
+          "street_line_1": { "type": "string", "title": "Street Line 1" },
+          "street_line_2": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Street Line 2"
+          },
+          "city": { "type": "string", "title": "City" },
+          "country": { "$ref": "#/components/schemas/Country" },
+          "state": { "type": "string", "title": "State" },
+          "postal_code": { "type": "string", "title": "Postal Code" }
+        },
+        "type": "object",
+        "required": [
+          "street_line_1",
+          "city",
+          "country",
+          "state",
+          "postal_code"
+        ],
+        "title": "Address"
+      },
+      "AddressRead": {
+        "properties": {
+          "street_line_1": { "type": "string", "title": "Street Line 1" },
+          "street_line_2": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Street Line 2"
+          },
+          "city": { "type": "string", "title": "City" },
+          "country": { "type": "string", "title": "Country" },
+          "state": { "type": "string", "title": "State" },
+          "postal_code": { "type": "string", "title": "Postal Code" }
+        },
+        "type": "object",
+        "required": [
+          "street_line_1",
+          "city",
+          "country",
+          "state",
+          "postal_code"
+        ],
+        "title": "AddressRead"
+      },
+      "AddressUS": {
+        "properties": {
+          "street_line_1": { "type": "string", "title": "Street Line 1" },
+          "street_line_2": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Street Line 2"
+          },
+          "city": { "type": "string", "title": "City" },
+          "country": {
+            "type": "string",
+            "enum": ["USA"],
+            "const": "USA",
+            "title": "Country"
+          },
+          "state": { "$ref": "#/components/schemas/USAState" },
+          "postal_code": { "type": "string", "title": "Postal Code" }
+        },
+        "type": "object",
+        "required": [
+          "street_line_1",
+          "city",
+          "country",
+          "state",
+          "postal_code"
+        ],
+        "title": "AddressUS"
+      },
+      "Authenticated": {
+        "properties": {
+          "session_jwt": { "type": "string", "title": "Session Jwt" },
+          "session_token": { "type": "string", "title": "Session Token" }
+        },
+        "type": "object",
+        "required": ["session_jwt", "session_token"],
+        "title": "Authenticated"
+      },
+      "Balance": {
+        "properties": { "balance": { "type": "string", "title": "Balance" } },
+        "type": "object",
+        "required": ["balance"],
+        "title": "Balance"
+      },
+      "Bank": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "institution_name": { "type": "string", "title": "Institution Name" },
+          "country": { "type": "string", "title": "Country" },
+          "currency": { "type": "string", "title": "Currency" },
+          "bank_code": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Bank Code"
+          },
+          "transfer_code": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Transfer Code"
+          },
+          "payout_method_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Payout Method Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": ["name", "institution_name", "country", "currency"],
+        "title": "Bank"
+      },
+      "BankAccountType": {
+        "type": "string",
+        "enum": ["savings", "checking"],
+        "title": "BankAccountType"
+      },
+      "BankCodeCO": {
+        "type": "string",
+        "enum": [
+          "co_bogota",
+          "co_bancolombia",
+          "co_daviplata",
+          "co_nequi",
+          "co_lulo_bank_sa",
+          "co_falabella",
+          "co_davivienda",
+          "co_bbva",
+          "co_global66"
+        ],
+        "title": "BankCodeCO"
+      },
+      "BeneficiaryLatam": {
+        "properties": {
+          "person_type": { "$ref": "#/components/schemas/PersonType" },
+          "tax_identification": {
+            "type": "string",
+            "title": "Tax Identification"
+          },
+          "email": { "type": "string", "title": "Email" }
+        },
+        "type": "object",
+        "required": ["person_type", "tax_identification", "email"],
+        "title": "BeneficiaryLatam"
+      },
+      "BeneficiaryUS": {
+        "properties": {
+          "person_type": { "$ref": "#/components/schemas/PersonType" },
+          "first_name": { "type": "string", "title": "First Name" },
+          "last_name": { "type": "string", "title": "Last Name" }
+        },
+        "type": "object",
+        "required": ["person_type", "first_name", "last_name"],
+        "title": "BeneficiaryUS"
+      },
+      "BusinessCreate": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "description": { "type": "string", "title": "Description" },
+          "tax_identification": {
+            "type": "string",
+            "title": "Tax Identification"
+          },
+          "identification_type": {
+            "$ref": "#/components/schemas/BusinessIdentificationType"
+          },
+          "country": { "$ref": "#/components/schemas/KYCCountry" },
+          "source_of_funds": { "type": "string", "title": "Source Of Funds" },
+          "incorporation_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Incorporation Date"
+          },
+          "business_type": { "$ref": "#/components/schemas/BusinessType" },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              { "type": "null" }
+            ],
+            "title": "Website"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "tax_identification",
+          "identification_type",
+          "country",
+          "source_of_funds",
+          "incorporation_date",
+          "business_type"
+        ],
+        "title": "BusinessCreate"
+      },
+      "BusinessIdentificationType": {
+        "type": "string",
+        "enum": [
+          "cl_rut",
+          "mx_rfc",
+          "co_nit",
+          "pe_ruc",
+          "ar_cuit",
+          "br_cnpj",
+          "pa_ruc"
+        ],
+        "title": "BusinessIdentificationType"
+      },
+      "BusinessRead": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "description": { "type": "string", "title": "Description" },
+          "tax_identification": {
+            "type": "string",
+            "title": "Tax Identification"
+          },
+          "identification_type": {
+            "type": "string",
+            "title": "Identification Type"
+          },
+          "website": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Website"
+          },
+          "source_of_funds": { "type": "string", "title": "Source Of Funds" },
+          "business_type": { "type": "string", "title": "Business Type" },
+          "incorporation_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Incorporation Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "tax_identification",
+          "identification_type",
+          "website",
+          "source_of_funds",
+          "business_type",
+          "incorporation_date"
+        ],
+        "title": "BusinessRead"
+      },
+      "BusinessType": {
+        "type": "string",
+        "enum": [
+          "cooperative",
+          "corporation",
+          "llc",
+          "solo_prop",
+          "partnership",
+          "trust",
+          "other"
+        ],
+        "title": "BusinessType"
+      },
+      "Country": {
+        "type": "string",
+        "enum": ["USA", "COL", "MEX", "BRA", "ARG", "PAN"],
+        "title": "Country"
+      },
+      "CountryBase": {
+        "properties": {
+          "name_iso": { "type": "string", "title": "Name Iso" },
+          "code_2": { "type": "string", "title": "Code 2" },
+          "code_3": { "type": "string", "title": "Code 3" },
+          "currency": { "type": "string", "title": "Currency" },
+          "is_supported": { "type": "boolean", "title": "Is Supported" }
+        },
+        "type": "object",
+        "required": [
+          "name_iso",
+          "code_2",
+          "code_3",
+          "currency",
+          "is_supported"
+        ],
+        "title": "CountryBase"
+      },
+      "CountryIso2": {
+        "type": "string",
+        "enum": [
+          "AR",
+          "BO",
+          "BR",
+          "CL",
+          "CO",
+          "CR",
+          "DO",
+          "EC",
+          "SV",
+          "GT",
+          "HN",
+          "MX",
+          "PA",
+          "PY",
+          "PE",
+          "UY"
+        ],
+        "title": "CountryIso2"
+      },
+      "Currency": {
+        "type": "string",
+        "enum": ["USD", "COP", "EUR", "MXN", "BRL", "ARS"],
+        "title": "Currency"
+      },
+      "CustomerCreateIn": {
+        "properties": {
+          "email": { "type": "string", "format": "email", "title": "Email" },
+          "person_type": { "$ref": "#/components/schemas/PersonType" },
+          "address": { "$ref": "#/components/schemas/Address" },
+          "individual": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/IndividualCreate" },
+              { "type": "null" }
+            ]
+          },
+          "business": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/BusinessCreate" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["email", "person_type", "address"],
+        "title": "CustomerCreateIn"
+      },
+      "CustomerRead": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "email": { "type": "string", "title": "Email" },
+          "person_type": { "$ref": "#/components/schemas/PersonType" },
+          "address": { "$ref": "#/components/schemas/AddressRead" },
+          "individual": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/IndividualRead" },
+              { "type": "null" }
+            ]
+          },
+          "business": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/BusinessRead" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["id", "email", "person_type", "address"],
+        "title": "CustomerRead"
+      },
+      "EmailAuthIn": {
+        "properties": {
+          "code": { "type": "string", "title": "Code" },
+          "email_id": { "type": "string", "title": "Email Id" }
+        },
+        "type": "object",
+        "required": ["code", "email_id"],
+        "title": "EmailAuthIn"
+      },
+      "ExternalAccountBR": {
+        "properties": {
+          "account_name": { "type": "string", "title": "Account Name" },
+          "pix_key": { "type": "string", "title": "Pix Key" }
+        },
+        "type": "object",
+        "required": ["account_name", "pix_key"],
+        "title": "ExternalAccountBR"
+      },
+      "ExternalAccountLatam": {
+        "properties": {
+          "account_name": { "type": "string", "title": "Account Name" },
+          "account_number": { "type": "string", "title": "Account Number" },
+          "account_type": { "$ref": "#/components/schemas/BankAccountType" },
+          "bank_code": { "$ref": "#/components/schemas/BankCodeCO" },
+          "beneficiary": { "$ref": "#/components/schemas/BeneficiaryLatam" }
+        },
+        "type": "object",
+        "required": [
+          "account_name",
+          "account_number",
+          "account_type",
+          "bank_code",
+          "beneficiary"
+        ],
+        "title": "ExternalAccountLatam"
+      },
+      "ExternalAccountReadSimple": {
+        "properties": {
+          "account_number": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Account Number"
+          }
+        },
+        "type": "object",
+        "required": ["account_number"],
+        "title": "ExternalAccountReadSimple"
+      },
+      "ExternalAccountUS": {
+        "properties": {
+          "bank_name": { "type": "string", "title": "Bank Name" },
+          "account_name": { "type": "string", "title": "Account Name" },
+          "account_number": { "type": "string", "title": "Account Number" },
+          "routing_number": { "type": "string", "title": "Routing Number" },
+          "account_type": { "$ref": "#/components/schemas/BankAccountType" },
+          "beneficiary": { "$ref": "#/components/schemas/BeneficiaryUS" },
+          "address": { "$ref": "#/components/schemas/AddressUS" },
+          "idempotency_key": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Idempotency Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bank_name",
+          "account_name",
+          "account_number",
+          "routing_number",
+          "account_type",
+          "beneficiary",
+          "address"
+        ],
+        "title": "ExternalAccountUS"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IndividualCreate": {
+        "properties": {
+          "first_name": { "type": "string", "title": "First Name" },
+          "last_name": { "type": "string", "title": "Last Name" },
+          "date_of_birth": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Date Of Birth"
+          },
+          "tax_identification": {
+            "type": "string",
+            "title": "Tax Identification"
+          },
+          "identification_type": {
+            "$ref": "#/components/schemas/IndividualIdentificationType"
+          },
+          "country": { "$ref": "#/components/schemas/KYCCountry" },
+          "middle_name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Middle Name"
+          },
+          "second_last_name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Second Last Name"
+          },
+          "phone_number": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64,
+                "minLength": 7,
+                "format": "phone"
+              },
+              { "type": "null" }
+            ],
+            "title": "Phone Number"
+          },
+          "gov_id_image_front": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Gov Id Image Front"
+          },
+          "gov_id_image_back": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Gov Id Image Back"
+          }
+        },
+        "type": "object",
+        "required": [
+          "first_name",
+          "last_name",
+          "date_of_birth",
+          "tax_identification",
+          "identification_type",
+          "country"
+        ],
+        "title": "IndividualCreate"
+      },
+      "IndividualIdentificationType": {
+        "type": "string",
+        "enum": [
+          "cl_rut",
+          "mx_curp",
+          "pa_cedula_ciu",
+          "co_cedula_ciu",
+          "co_cedula_ext",
+          "pe_dni",
+          "br_cpf"
+        ],
+        "title": "IndividualIdentificationType"
+      },
+      "IndividualRead": {
+        "properties": {
+          "first_name": { "type": "string", "title": "First Name" },
+          "last_name": { "type": "string", "title": "Last Name" },
+          "middle_name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Middle Name"
+          },
+          "second_last_name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Second Last Name"
+          },
+          "phone_number": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Phone Number"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Date Of Birth"
+          },
+          "tax_identification": {
+            "type": "string",
+            "title": "Tax Identification"
+          },
+          "identification_type": {
+            "type": "string",
+            "title": "Identification Type"
+          },
+          "country": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Country"
+          },
+          "gov_id_image_front": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Gov Id Image Front"
+          },
+          "gov_id_image_back": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Gov Id Image Back"
+          }
+        },
+        "type": "object",
+        "required": [
+          "first_name",
+          "last_name",
+          "middle_name",
+          "second_last_name",
+          "phone_number",
+          "date_of_birth",
+          "tax_identification",
+          "identification_type",
+          "country",
+          "gov_id_image_front",
+          "gov_id_image_back"
+        ],
+        "title": "IndividualRead"
+      },
+      "KYCCountry": {
+        "type": "string",
+        "enum": ["US", "CO", "PE", "PA", "MX", "BR", "AR", "CL"],
+        "title": "KYCCountry"
+      },
+      "LoginEmailOtpIn": {
+        "properties": {
+          "email": { "type": "string", "format": "email", "title": "Email" }
+        },
+        "type": "object",
+        "required": ["email"],
+        "title": "LoginEmailOtpIn"
+      },
+      "LoginEmailOtpOut": {
+        "properties": {
+          "email_id": { "type": "string", "title": "Email Id" },
+          "email": { "type": "string", "format": "email", "title": "Email" }
+        },
+        "type": "object",
+        "required": ["email_id", "email"],
+        "title": "LoginEmailOtpOut"
+      },
+      "PaymentRail": {
+        "type": "string",
+        "enum": ["ach", "ach_push", "wire", "sepa"],
+        "title": "PaymentRail"
+      },
+      "PersonType": {
+        "type": "string",
+        "enum": ["individual", "business"],
+        "title": "PersonType"
+      },
+      "QuoteRead": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "source": { "type": "string", "title": "Source" },
+          "destination": { "type": "string", "title": "Destination" },
+          "amount_in": { "type": "integer", "title": "Amount In" },
+          "amount_out": { "type": "integer", "title": "Amount Out" },
+          "exchange_rate": { "type": "integer", "title": "Exchange Rate" },
+          "expires_at": { "type": "integer", "title": "Expires At" },
+          "network_fee": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Network Fee"
+          },
+          "zeneca_fee": { "type": "integer", "title": "Zeneca Fee" },
+          "fee": { "type": "integer", "title": "Fee" },
+          "external_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "External Id"
+          },
+          "recipient_id": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "Recipient Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source",
+          "destination",
+          "amount_in",
+          "amount_out",
+          "exchange_rate",
+          "expires_at",
+          "network_fee",
+          "zeneca_fee",
+          "fee",
+          "external_id",
+          "recipient_id"
+        ],
+        "title": "QuoteRead"
+      },
+      "QuoteRequest": {
+        "properties": {
+          "recipient_id": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "Recipient Id"
+          },
+          "source": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/TokenSymbol" },
+              { "$ref": "#/components/schemas/Currency" }
+            ],
+            "title": "Source"
+          },
+          "destination": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/TokenSymbol" },
+              { "$ref": "#/components/schemas/Currency" }
+            ],
+            "title": "Destination"
+          },
+          "amount_in": {
+            "anyOf": [
+              { "type": "number" },
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "title": "Amount In"
+          },
+          "amount_out": {
+            "anyOf": [
+              { "type": "number" },
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "title": "Amount Out"
+          },
+          "payment_rail": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/PaymentRail" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["recipient_id", "source", "destination"],
+        "title": "QuoteRequest"
+      },
+      "RecipientRead": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "owner": { "type": "boolean", "title": "Owner" },
+          "country": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/Country" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["id", "name", "owner"],
+        "title": "RecipientRead"
+      },
+      "RecipientReadWithExternalAccount": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "owner": { "type": "boolean", "title": "Owner" },
+          "country": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/Country" },
+              { "type": "null" }
+            ]
+          },
+          "external_account": {
+            "$ref": "#/components/schemas/ExternalAccountReadSimple"
+          }
+        },
+        "type": "object",
+        "required": ["id", "name", "owner", "external_account"],
+        "title": "RecipientReadWithExternalAccount"
+      },
+      "RecipientRequest": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/RecipientRequestLatam" },
+          { "$ref": "#/components/schemas/RecipientRequestBR" },
+          { "$ref": "#/components/schemas/RecipientRequestUS" }
+        ],
+        "title": "RecipientRequest",
+        "discriminator": {
+          "propertyName": "country",
+          "mapping": {
+            "ARG": "#/components/schemas/RecipientRequestLatam",
+            "BRA": "#/components/schemas/RecipientRequestBR",
+            "COL": "#/components/schemas/RecipientRequestLatam",
+            "MEX": "#/components/schemas/RecipientRequestLatam",
+            "USA": "#/components/schemas/RecipientRequestUS"
+          }
+        }
+      },
+      "RecipientRequestBR": {
+        "properties": {
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "country": {
+            "type": "string",
+            "enum": ["BRA"],
+            "const": "BRA",
+            "title": "Country"
+          },
+          "owner": { "type": "boolean", "title": "Owner" },
+          "external_account": {
+            "$ref": "#/components/schemas/ExternalAccountBR"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "country",
+          "owner",
+          "external_account",
+          "customer_id"
+        ],
+        "title": "RecipientRequestBR"
+      },
+      "RecipientRequestLatam": {
+        "properties": {
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "country": {
+            "type": "string",
+            "enum": ["COL", "MEX", "ARG"],
+            "title": "Country"
+          },
+          "owner": { "type": "boolean", "title": "Owner" },
+          "external_account": {
+            "$ref": "#/components/schemas/ExternalAccountLatam"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "country",
+          "owner",
+          "external_account",
+          "customer_id"
+        ],
+        "title": "RecipientRequestLatam"
+      },
+      "RecipientRequestUS": {
+        "properties": {
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "country": {
+            "type": "string",
+            "enum": ["USA"],
+            "const": "USA",
+            "title": "Country"
+          },
+          "owner": { "type": "boolean", "title": "Owner" },
+          "external_account": {
+            "$ref": "#/components/schemas/ExternalAccountUS"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "country",
+          "owner",
+          "external_account",
+          "customer_id"
+        ],
+        "title": "RecipientRequestUS"
+      },
+      "TokenSymbol": {
+        "type": "string",
+        "enum": ["usdc.polygon", "usdc.base", "usdc.stellar"],
+        "title": "TokenSymbol"
+      },
+      "TransferRead": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "withdrawal": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/WithdrawalRead" },
+              { "type": "null" }
+            ]
+          },
+          "recipient": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/RecipientRead" },
+              { "type": "null" }
+            ]
+          },
+          "quote": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/QuoteRead" },
+              { "type": "null" }
+            ]
+          },
+          "deposit_id": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "Deposit Id"
+          },
+          "status": { "$ref": "#/components/schemas/TransferStatus" },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          },
+          "reference_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Reference Id"
+          },
+          "recipient_id": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "Recipient Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": ["id", "status", "customer_id", "created_at"],
+        "title": "TransferRead"
+      },
+      "TransferRequest": {
+        "properties": {
+          "quote_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Quote Id"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          },
+          "recipient_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Recipient Id"
+          },
+          "reference_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Reference Id"
+          }
+        },
+        "type": "object",
+        "required": ["quote_id", "customer_id", "recipient_id"],
+        "title": "TransferRequest"
+      },
+      "TransferStatus": {
+        "type": "string",
+        "enum": [
+          "WAITING",
+          "PAID",
+          "PENDING",
+          "SUBMITTED",
+          "IN_PROGRESS",
+          "SENT",
+          "REJECTED",
+          "INVALID_ACCOUNT_DETAILS",
+          "ERROR"
+        ],
+        "title": "TransferStatus"
+      },
+      "USAState": {
+        "type": "string",
+        "enum": [
+          "US-AL",
+          "US-AK",
+          "US-AZ",
+          "US-AR",
+          "US-CA",
+          "US-CO",
+          "US-CT",
+          "US-DE",
+          "US-FL",
+          "US-GA",
+          "US-HI",
+          "US-ID",
+          "US-IL",
+          "US-IN",
+          "US-IA",
+          "US-KS",
+          "US-KY",
+          "US-LA",
+          "US-ME",
+          "US-MD",
+          "US-MA",
+          "US-MI",
+          "US-MN",
+          "US-MS",
+          "US-MO",
+          "US-MT",
+          "US-NE",
+          "US-NV",
+          "US-NH",
+          "US-NJ",
+          "US-NM",
+          "US-NY",
+          "US-NC",
+          "US-ND",
+          "US-OH",
+          "US-OK",
+          "US-OR",
+          "US-PA",
+          "US-RI",
+          "US-SC",
+          "US-SD",
+          "US-TN",
+          "US-TX",
+          "US-UT",
+          "US-VT",
+          "US-VA",
+          "US-WA",
+          "US-WV",
+          "US-WI",
+          "US-WY"
+        ],
+        "title": "USAState"
+      },
+      "User": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "email": { "type": "string", "title": "Email" },
+          "phone": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Phone"
+          },
+          "has_third_party_auth": {
+            "type": "boolean",
+            "title": "Has Third Party Auth",
+            "default": false
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": ["name", "email", "phone"],
+        "title": "User"
+      },
+      "UserCreateIn": {
+        "properties": {
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "email": { "type": "string", "format": "email", "title": "Email" },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64,
+                "minLength": 7,
+                "format": "phone"
+              },
+              { "type": "null" }
+            ],
+            "title": "Phone"
+          },
+          "current_wallet": { "$ref": "#/components/schemas/WalletCreateIn" },
+          "has_third_party_auth": {
+            "type": "boolean",
+            "title": "Has Third Party Auth",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": ["email", "current_wallet"],
+        "title": "UserCreateIn"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      },
+      "WalletCreateIn": {
+        "properties": { "address": { "type": "string", "title": "Address" } },
+        "type": "object",
+        "required": ["address"],
+        "title": "WalletCreateIn"
+      },
+      "WithdrawalRead": {
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "title": "Id" },
+          "status": { "$ref": "#/components/schemas/TransferStatus" },
+          "external_id": { "type": "string", "title": "External Id" },
+          "payout_address": { "type": "string", "title": "Payout Address" },
+          "payout_token": { "type": "string", "title": "Payout Token" },
+          "payout_network_id": {
+            "type": "string",
+            "title": "Payout Network Id"
+          },
+          "tx_hash": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Tx Hash"
+          },
+          "quote_id": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "Quote Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "finished_at": {
+            "anyOf": [
+              { "type": "string", "format": "date-time" },
+              { "type": "null" }
+            ],
+            "title": "Finished At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "external_id",
+          "payout_address",
+          "payout_token",
+          "payout_network_id",
+          "created_at"
+        ],
+        "title": "WithdrawalRead"
+      }
+    },
+    "securitySchemes": { "HTTPBearer": { "type": "http", "scheme": "bearer" } }
+  }
+}

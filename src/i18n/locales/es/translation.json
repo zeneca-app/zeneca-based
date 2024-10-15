@@ -1,0 +1,60 @@
+{
+  "login": {
+    "description_line_1": "Dinero global",
+    "description_line_2": "como un local",
+    "signUpButton": "¡Abrir mi cuenta!",
+    "signInButton": "Iniciar sesión"
+  },
+  "loginOptions": {
+    "emailOption": "Continue with email",
+    "googleOption": "Continue with Google",
+    "appleOption": "Continue with Apple",
+    "terms": "Al continuar, aceptas los",
+    "termsLink": "Términos de uso"
+  },
+  "loginWithEmail": {
+    "title": "¿Cuál es tu email?",
+    "emailLabel": "Email",
+    "continueButton": "Continuar",
+    "errorText": "Email inválido"
+  },
+  "emailOtpValidation": {
+    "title": "Ingresa el código de verificación",
+    "subtitle": "Te enviamos uno a ",
+    "continueButton": "Verificar y continuar"
+  },
+  "home": {
+    "depositActionText": "Depositar",
+    "sendActionText": "Enviar",
+    "currency": "USD",
+    "empty_transactions": "No tienes movimientos",
+    "date_format": "d 'de' MMMM",
+    "transactions": "Movimientos"
+  },
+  "depositCrypto": {
+    "title": "Depósito con Crypto",
+    "addressLabel": "Dirección de la billetera",
+    "infoText": "Esta dirección solamente puede recibir USDC en Base",
+    "disclaimerText": "Asegúrate de que la red sea la misma que la de la billetera desde la que envías o podrías perder tus fondos.",
+    "addressCopied": "Dirección copiada al portapapeles"
+  },
+  "recipients": {
+    "title": "A quién le vas a enviar dinero",
+    "searchPlaceholder": "Buscar por nombre..."
+  },
+  "sentReceipt": {
+    "headerText": "Enviaste",
+    "recipient_label": "a",
+    "date": "Fecha",
+    "accountNumber": "Número de cuenta",
+    "reference": "Referencia",
+    "status": "Estatus",
+    "fee": "Comisión",
+    "total": "Total",
+    "doneButtonText": "Listo"
+  },
+  "faceId": {
+    "prompt": "Confirma con tu Face ID",
+    "fallback": "Usa tu contraseña"
+  }
+}

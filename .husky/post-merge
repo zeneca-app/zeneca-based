@@ -1,0 +1,11 @@
+# Function to check if a file has changed
+file_has_changed() {
+  local file="$1"
+  git diff --name-only HEAD@{1} HEAD | grep -q "$file"
+}
+
+# Check if yarn.lock has changed
+if file_has_changed 'yarn.lock'; then
+  # Yarn.lock has changed, run your Yarn commands here
+  yarn install
+fi

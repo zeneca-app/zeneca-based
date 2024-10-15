@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "Zeneca",
+    "slug": "zeneca",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.zeneca.prod",
+      "usesAppleSignIn": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "app.zeneca.prod"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "app.zeneca.prod",
+    "plugins": [
+      "expo-localization",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/manrope/Manrope_300Light.ttf",
+            "node_modules/@expo-google-fonts/manrope/Manrope_400Regular.ttf",
+            "node_modules/@expo-google-fonts/manrope/Manrope_500Medium.ttf",
+            "node_modules/@expo-google-fonts/manrope/Manrope_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/manrope/Manrope_700Bold.ttf",
+            "node_modules/@expo-google-fonts/manrope/Manrope_800ExtraBold.ttf"
+          ]
+        }
+      ],
+      "expo-secure-store",
+      "expo-apple-authentication",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "07db86a6-53e9-40e0-b3f5-84d401b54213"
+      }
+    },
+    "owner": "zeneca"
+  }
+}

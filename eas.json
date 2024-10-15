@@ -1,0 +1,44 @@
+{
+  "cli": {
+    "version": ">= 3.13.3",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "ios": {
+        "distribution": "store"
+      }
+    },
+    "testflight": {
+      "env": {
+        "EXPO_PUBLIC_PRIVY_APP_ID": "${EXPO_PUBLIC_PRIVY_APP_ID}",
+        "EXPO_PUBLIC_PRIVY_CLIENT_ID": "${EXPO_PUBLIC_PRIVY_CLIENT_ID}"
+      },
+      "extends": "production",
+      "distribution": "internal"
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
