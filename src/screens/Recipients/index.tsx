@@ -71,6 +71,10 @@ const RecipientsScreen = () => {
         return () => debouncedSearch.cancel();
     }, [searchQuery, debouncedSearch]);
 
+    const clearSearch = () => {
+        setSearchQuery("");
+        setSearchResult(null);
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -88,9 +92,15 @@ const RecipientsScreen = () => {
                     value={searchQuery}
                     onChangeText={(text) => setSearchQuery(text.toLowerCase())}
                 />
-                <TouchableOpacity style={styles.pasteButton}>
-                    <Text style={styles.pasteButtonText}>Paste</Text>
-                </TouchableOpacity>
+                {searchQuery ? (
+                    <TouchableOpacity style={styles.clearButton} onPress={clearSearch}>
+                        <Ionicons name="close" size={22} color="#fff" />
+                    </TouchableOpacity>
+                ) : (
+                    <TouchableOpacity style={styles.pasteButton}>
+                        <Text style={styles.pasteButtonText}>Paste</Text>
+                    </TouchableOpacity>
+                )}
             </View>
 
             {/*  
@@ -132,7 +142,7 @@ const RecipientsScreen = () => {
                     <Text style={styles.suggestedItemSubtitle}>2 Previous Transactions</Text>
                 </View>
             </TouchableOpacity> */}
-          
+
         </SafeAreaView>
     );
 };
@@ -157,6 +167,11 @@ const styles = StyleSheet.create({
     backButton: {
         marginLeft: 20,
         marginBottom: 20,
+    },
+    clearButton: {
+        borderRadius: 20,
+        backgroundColor: "#262429",
+        padding: 8,
     },
     searchContainer: {
         flexDirection: "row",
@@ -256,7 +271,6 @@ const styles = StyleSheet.create({
     resultContainer: {
         borderRadius: 8,
         margin: 16,
-
     },
     resultLabel: {
         color: "#666",
@@ -279,12 +293,13 @@ const styles = StyleSheet.create({
     },
     resultItemTitle: {
         color: "white",
-        fontSize: 16,
+        fontSize: 18,
         fontFamily: "Manrope_700Bold",
     },
     resultItemSubtitle: {
         color: "#666",
-        fontSize: 14,
+        fontSize: 15,
+        fontFamily: "Manrope_400Regular",
     },
     avatarText: {
         color: "white",
