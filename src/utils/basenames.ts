@@ -8,8 +8,11 @@ import {
   namehash,
 } from "viem";
 import { base, mainnet } from "viem/chains";
+import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from "../constants/basenames";
 import L2ResolverAbi from "../lib/abis/L2ResolverAbi";
 import { getChainPublicClient } from "../lib/pimlico";
+import { isBase } from "./isBase";
+import { isEthereum } from "./isEthereum";
 
 export type Basename = `${string}.base.eth`;
 
@@ -21,10 +24,16 @@ export type GetAddress = {
   chain?: Chain;
 };
 
+export type GetName = {
+  address: Address;
+  chain?: Chain;
+};
+
 /**
  * Note: exported as public Type
  */
 export type GetAddressReturnType = Address | null;
+export type GetNameReturnType = string | Basename | null;
 
 export const BASENAME_L2_RESOLVER_ADDRESS =
   "0xC6d566A56A1aFf6508b41f6c90ff131615583BCD";
@@ -102,21 +111,26 @@ export const convertReverseNodeToBytes = (
   const baseReverseNode = namehash(
     `${chainCoinType.toLocaleUpperCase()}.reverse`,
   );
+  console.log("baseReverseNode", baseReverseNode);
   const addressReverseNode = keccak256(
     encodePacked(["bytes32", "bytes32"], [baseReverseNode, addressNode]),
   );
+  console.log("addressReverseNode", addressReverseNode);
   return addressReverseNode;
 };
 
 export async function getBasename(address: Address) {
   try {
+    console.log("address", address);
     const addressReverseNode = convertReverseNodeToBytes(address, base.id);
+    console.log("addressReverseNode", addressReverseNode);
     const basename = await baseClient.readContract({
       abi: L2ResolverAbi,
       address: BASENAME_L2_RESOLVER_ADDRESS,
       functionName: "name",
       args: [addressReverseNode],
     });
+    console.log("basename", basename);
     if (basename) {
       return basename as Basename;
     }
@@ -143,4 +157,47 @@ export const isBasename = (username: string) => {
     return true;
   }
   return false;
+};
+
+export const getName = async ({
+  address,
+  chain = mainnet,
+}: GetName): Promise<GetNameReturnType> => {
+  const chainIsBase = isBase({ chainId: chain.id });
+  const chainIsEthereum = isEthereum({ chainId: chain.id });
+  const chainSupportsUniversalResolver = chainIsEthereum || chainIsBase;
+
+  if (!chainSupportsUniversalResolver) {
+    return Promise.reject(
+      "ChainId not supported, name resolution is only supported on Ethereum and Base.",
+    );
+  }
+
+  let client = getChainPublicClient(chain);
+
+  if (chainIsBase) {
+    const addressReverseNode = convertReverseNodeToBytes(address, base.id);
+    try {
+      const basename = await client.readContract({
+        abi: L2ResolverAbi,
+        address: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
+        functionName: "name",
+        args: [addressReverseNode],
+      });
+      if (basename) {
+        return basename as Basename;
+      }
+    } catch (_error) {
+      // This is a best effort attempt, so we don't need to do anything here.
+    }
+  }
+
+  // Default to mainnet
+  client = getChainPublicClient(mainnet);
+  // ENS username
+  const ensName = await client.getEnsName({
+    address,
+  });
+
+  return ensName ?? null;
 };

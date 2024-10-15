@@ -14,16 +14,17 @@ import {
     View,
 } from "react-native";
 import useRecipientStore from "../../storage/recipientStore";
-import { getBasename, isBasename, Basename, getAddress } from "../../utils/basenames";
+import { getName, isBasename, getAddress } from "../../utils/basenames";
 import { isAddress, Address } from "viem";
 import { debounce } from 'lodash';
 
 
-
 const RecipientsScreen = () => {
+    const { t } = useTranslation();
+    const navigation = useNavigation();
 
     type Result = {
-        name: string;
+        name: string | null;
         address: Address;
     }
 
@@ -31,22 +32,19 @@ const RecipientsScreen = () => {
     const [searchResult, setSearchResult] = useState<Result | null>(null);
     const [isTyping, setIsTyping] = useState(false);
 
-    const navigation = useNavigation();
-
     const { setRecipient } = useRecipientStore((state) => ({
         setRecipient: state.setRecipient,
     }));
-    const { t } = useTranslation();
 
-    const getSearchResults = async (searchQuery: string): Promise<Result | null> => {
-        if (isAddress(searchQuery)) {
-            const basename = await getBasename(searchQuery);
-            return { name: basename as Basename, address: searchQuery };
+    const getSearchResults = async (addressOrBasename: string): Promise<Result | null> => {
+        if (isBasename(addressOrBasename)) {
+            const address = await getAddress({ name: addressOrBasename });
+            return { name: addressOrBasename, address: address as Address };
         }
+        if (isAddress(addressOrBasename)) {
+            const basename = await getName({ address: addressOrBasename as Address });
 
-        if (isBasename(searchQuery)) {
-            const address = await getAddress({ name: searchQuery });
-            return { name: searchQuery, address: address as Address };
+            return { name: basename as string, address: addressOrBasename };
         }
         return null;
     }
@@ -132,24 +130,12 @@ const RecipientsScreen = () => {
                             <Ionicons name="wallet-outline" size={24} color="#666" />
                         </View>
                         <View style={styles.resultItemTextContainer}>
-                            <Text style={styles.resultItemTitle}>{searchResult.name}</Text>
+                            <Text style={styles.resultItemTitle}>{searchResult.name ?? shortenAddress(searchResult.address)}</Text>
                             <Text style={styles.resultItemSubtitle}>{shortenAddress(searchResult.address)}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
             )}
-
-
-            {/*  <Text style={styles.suggestedText}>Suggested</Text>
-            <TouchableOpacity style={styles.suggestedItem}>
-                <View style={styles.walletIconContainer}>
-                    <Ionicons name="wallet-outline" size={24} color="#666" />
-                </View>
-                <View style={styles.suggestedItemTextContainer}>
-                    <Text style={styles.suggestedItemTitle}>0x02c4····329f</Text>
-                    <Text style={styles.suggestedItemSubtitle}>2 Previous Transactions</Text>
-                </View>
-            </TouchableOpacity> */}
 
         </SafeAreaView>
     );
