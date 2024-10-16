@@ -6,15 +6,23 @@ import { useTranslation } from "react-i18next";
 import { colors } from "../../styles/colors";
 import Keypad from "../../components/Keypad";
 import useRecipientStore from "../../storage/recipientStore";
+import useTransferStore from "../../storage/transferStore";
+import { useWalletStore } from "../../storage/walletStore";
 import { shortenAddress } from "../../utils/address";
 import { Address } from "viem";
 import { formatCurrency } from "../../utils/currencyUtils";
 
+
 const SendScreen = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
+    const { setTransferCrypto } = useTransferStore((state) => ({
+        transferCrypto: state.transferCrypto,
+        setTransferCrypto: state.setTransferCrypto,
+    }));
     const [amount, setAmount] = useState('0');
     const [fontSize, setFontSize] = useState(48);
+    const smartAccountAddress = useWalletStore((state) => state.address);
 
     const { recipientCrypto } = useRecipientStore((state) => ({
         recipientCrypto: state.recipientCrypto,
@@ -48,6 +56,13 @@ const SendScreen = () => {
     }, [amount]);
 
     const handleContinue = () => {
+        setTransferCrypto({
+            name: recipientCrypto?.name,
+            address: recipientCrypto?.address as Address,
+            amount: parseFloat(amount),
+            from_address: smartAccountAddress as Address,
+            to_address: recipientCrypto?.address as Address,
+        });
         navigation.navigate("SendConfirmation");
     }
 

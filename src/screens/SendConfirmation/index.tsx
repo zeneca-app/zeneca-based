@@ -18,8 +18,9 @@ import LoadingScreen from "../../components/Loading";
 import { shortenAddress } from "../../utils/address";
 import { Address } from "viem";
 import { colors } from "../../styles/colors";
-
-
+import useTransferStore from "../../storage/transferStore";
+import BaseIcon from "../../../assets/base-logo.svg";
+import USDCIcon from "../../../assets/usdc.svg";
 
 const SendConfirmationScreen = () => {
     const navigation = useNavigation();
@@ -29,10 +30,13 @@ const SendConfirmationScreen = () => {
         recipientCrypto: state.recipientCrypto,
     }));
 
-    const isTransactionPending = false
-    const amount = 100
-    const accountNumber = shortenAddress(recipientCrypto?.address as Address)
+    const { transferCrypto } = useTransferStore((state) => ({
+        transferCrypto: state.transferCrypto,
+    }));
 
+    const isTransactionPending = false
+    const amount = transferCrypto?.amount!
+    const accountNumber = shortenAddress(recipientCrypto?.address as Address)
     const recipientName = recipientCrypto?.name ?? accountNumber
 
     const handleCreateTransaction = async () => {
@@ -74,12 +78,7 @@ const SendConfirmationScreen = () => {
                     </View>
                 </View>
 
-                <View style={styles.detailsContainer}>
-                    <View style={styles.detailRow}>
-                        <Text style={styles.detailLabel}>{t("sendConfirmation.accountNumber")}</Text>
-                        <Text style={styles.detailValue}>{accountNumber}</Text>
-                    </View>
-                </View>
+
 
                 <View style={styles.detailsContainer}>
                     <View style={styles.detailRow}>
@@ -88,11 +87,17 @@ const SendConfirmationScreen = () => {
                     </View>
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>{t("sendConfirmation.send")} USDC</Text>
-                        <Text style={styles.detailValue}>{amount}</Text>
+                        <View style={styles.logoContainer}>
+                            <USDCIcon width={20} height={20} style={styles.logo} />
+                            <Text style={styles.detailValue}>{amount}</Text>
+                        </View>
                     </View>
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>{t("sendConfirmation.chain")}</Text>
-                        <Text style={styles.detailValue}>Base</Text>
+                        <View style={styles.logoContainer}>
+                            <BaseIcon width={20} height={20} style={styles.logo} />
+                            <Text style={styles.detailValue}>Base</Text>
+                        </View>
                     </View>
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>{t("sendConfirmation.fee")}</Text>
@@ -154,30 +159,36 @@ const styles = StyleSheet.create({
     },
     recipientContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
     },
     recipientLabel: {
+        lineHeight: 30,
         fontSize: 20,
         color: "white",
     },
     recipientName: {
         fontSize: 24,
-        fontWeight: "bold",
         color: "white",
-        marginLeft: 8,
+        marginLeft: 6,
         fontFamily: "Manrope_700Bold"
+    },
+    logoContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    logo: {
+        marginRight: 8,
     },
     detailsContainer: {
         backgroundColor: "#19181B",
         borderRadius: 25,
-        paddingVertical: 20,
+        paddingVertical: 25,
         paddingHorizontal: 20,
-        marginBottom: 20,
     },
     detailRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 8,
+        marginBottom: 15,
     },
     detailLabel: {
         color: "#96939F",
@@ -185,8 +196,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     detailValue: {
-        fontSize: 14,
-        fontFamily: "Manrope_500Medium",
+        fontSize: 16,
+        fontFamily: "Manrope_700Bold",
         color: "white",
     },
     bottomSection: {
