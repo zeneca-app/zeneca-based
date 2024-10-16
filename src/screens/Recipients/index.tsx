@@ -18,7 +18,7 @@ import { getName, isBasename, getAddress } from "../../lib/basenames";
 import { isAddress, Address } from "viem";
 import { debounce } from 'lodash';
 import { shortenAddress } from "../../utils/address";
-
+import Clipboard from '@react-native-clipboard/clipboard';
 
 type SearchResult = {
     name: string | null;
@@ -70,6 +70,11 @@ const RecipientsScreen = () => {
     );
 
 
+    const handlePaste = async () => {
+        const text = await Clipboard.getString();
+        setSearchQuery(text);
+        debouncedSearch(text);
+    };
 
     useEffect(() => {
         debouncedSearch(searchQuery);
@@ -108,7 +113,7 @@ const RecipientsScreen = () => {
                         <Ionicons name="close" size={22} color="#fff" />
                     </TouchableOpacity>
                 ) : (
-                    <TouchableOpacity style={styles.pasteButton}>
+                    <TouchableOpacity style={styles.pasteButton} onPress={handlePaste}>
                         <Text style={styles.pasteButtonText}>{t("recipients.pasteButtonText")}</Text>
                     </TouchableOpacity>
                 )}

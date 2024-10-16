@@ -8,18 +8,19 @@ import Keypad from "../../components/Keypad";
 import useRecipientStore from "../../storage/recipientStore";
 import { shortenAddress } from "../../utils/address";
 import { Address } from "viem";
-
+import { formatCurrency } from "../../utils/currencyUtils";
 
 const SendScreen = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
     const [amount, setAmount] = useState('0');
-
     const [fontSize, setFontSize] = useState(48);
 
     const { recipientCrypto } = useRecipientStore((state) => ({
         recipientCrypto: state.recipientCrypto,
     }));
+
+    const [balance, setBalance] = useState(0);
 
     const handleKeyPress = (key: string | number) => {
         if (key === 'backspace') {
@@ -34,12 +35,14 @@ const SendScreen = () => {
 
     useEffect(() => {
         // Adjust font size based on amount length
-        if (amount.length > 10) {
-            setFontSize(32);
-        } else if (amount.length > 7) {
-            setFontSize(40);
-        } else {
+        if (amount.length > 15) {
+            setFontSize(25);
+        } else if (amount.length > 10) {
+            setFontSize(35);
+        } else if (amount.length > 8) {
             setFontSize(48);
+        } else {
+            setFontSize(60);
         }
     }, [amount]);
 
@@ -50,38 +53,33 @@ const SendScreen = () => {
                     <Ionicons name="chevron-back" size={22} color="white" />
                 </TouchableOpacity>
             </View>
-            <Text style={styles.title}>Send</Text>
-
+            <Text style={styles.title}>{t("sendCrypto.title")}</Text>
             <View style={styles.content}>
                 <View style={styles.recipientContainer}>
-                    <Text style={styles.label}>To</Text>
+                    <Text style={styles.label}>{t("sendCrypto.recipientLabel")}</Text>
                     <Text
                         style={styles.recipient}
                     >{recipientCrypto?.name || shortenAddress(recipientCrypto?.address as Address)}</Text>
                 </View>
 
-                <View style={styles.amountContainer}>
-                    <Text style={styles.amountPrefix}>$</Text>
-                    <Text style={[styles.amount, { fontSize }]}>
-                        {amount}
-                    </Text>
-                    {/*    <Text style={styles.amountSuffix}>0 ↑↓</Text> */}
-                </View>
-                {/* 
-                <View style={styles.balanceContainer}>
-                    <View style={styles.balanceLeft}>
-                        <Ionicons name="logo-usd" size={24} color="#3498db" />
-                        <Text style={styles.balanceText}>0.5499 USDC</Text>
+                <View style={styles.amountWrapper}>
+                    <View style={styles.balanceContainer}>
+                        <Text style={styles.balanceLabel}>{t("sendCrypto.availableLabel")}</Text>
+                        <Text style={styles.balanceText}> ${formatCurrency(balance, "USD")}</Text>
                     </View>
-                    <TouchableOpacity style={styles.maxButton}>
-                        <Text style={styles.maxButtonText}>Use Max</Text>
-                    </TouchableOpacity>
-                </View> */}
+                    <View style={styles.amountContainer}>
+                        <Text style={[styles.amountPrefix, { fontSize: fontSize * 0.4 }]}>$</Text>
+                        <Text style={[styles.amount, { fontSize }]}>
+                            {amount}
+                        </Text>
+                    </View>
+                </View>
+
 
                 <View style={styles.keypadContainer}>
                     <Keypad onKeyPress={handleKeyPress} />
                     <TouchableOpacity style={styles.continueButton}>
-                        <Text style={styles.continueButtonText}>Continue</Text>
+                        <Text style={styles.continueButtonText}>{t("sendCrypto.continueButton")}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -112,7 +110,8 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        justifyContent: 'space-between',
     },
     recipientContainer: {
         alignItems: "center",
@@ -133,20 +132,28 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: "Manrope_400Regular"
     },
+    amountWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     amountContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'baseline',
         marginBottom: 24,
+        position: 'relative',
     },
     amountPrefix: {
+        fontWeight: 'bold',
         color: 'white',
-        fontSize: 36,
-        marginRight: 4,
+        fontSize: 30,
+        position: 'absolute',
+        left: -20, // Adjust this value as needed
+        top: 3, // Adjust this value as needed
     },
     amount: {
         color: 'white',
-        fontSize: 48,
         fontWeight: 'bold',
     },
     amountSuffix: {
@@ -156,20 +163,17 @@ const styles = StyleSheet.create({
     },
     balanceContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#1E1E1E',
-        borderRadius: 8,
-        padding: 12,
-        marginBottom: 24,
-    },
-    balanceLeft: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        marginBottom: 10,
     },
     balanceText: {
-        color: 'white',
-        marginLeft: 8,
+        color: '#96939F',
+        fontSize: 14,
+    },
+    balanceLabel: {
+        color: '#96939F',
+        fontSize: 14,
     },
     maxButton: {
         backgroundColor: '#3498db',
