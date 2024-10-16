@@ -171,8 +171,6 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     backButton: {
-        marginLeft: 20,
-        marginBottom: 20,
     },
     clearButton: {
         borderRadius: 20,
