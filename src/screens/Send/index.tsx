@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
-
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { colors } from "../../styles/colors";
 import Keypad from "../../components/Keypad";
+import useRecipientStore from "../../storage/recipientStore";
+import { shortenAddress } from "../../utils/address";
+import { Address } from "viem";
 
 
 const SendScreen = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
     const [amount, setAmount] = useState('0');
-    const [recipient, setRecipient] = useState('');
+
     const [fontSize, setFontSize] = useState(48);
+
+    const { recipientCrypto } = useRecipientStore((state) => ({
+        recipientCrypto: state.recipientCrypto,
+    }));
 
     const handleKeyPress = (key: string | number) => {
         if (key === 'backspace') {
@@ -47,20 +53,15 @@ const SendScreen = () => {
             <Text style={styles.title}>Send</Text>
 
             <View style={styles.content}>
-                {/* <View style={styles.recipientContainer}>
+                <View style={styles.recipientContainer}>
                     <Text style={styles.label}>To</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={recipient}
-                        onChangeText={setRecipient}
-                        placeholder="Enter recipient"
-                        placeholderTextColor="#666"
-                    />
-                </View> */}
+                    <Text
+                        style={styles.recipient}
+                    >{recipientCrypto?.name || shortenAddress(recipientCrypto?.address as Address)}</Text>
+                </View>
 
                 <View style={styles.amountContainer}>
                     <Text style={styles.amountPrefix}>$</Text>
-                   
                     <Text style={[styles.amount, { fontSize }]}>
                         {amount}
                     </Text>
@@ -91,7 +92,7 @@ const SendScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#0D0B0D",
+        backgroundColor: "#19181B",
     },
     header: {
         flexDirection: "row",
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
         marginLeft: 25,
         fontSize: 32,
         color: 'white',
-        marginBottom: 20,
+        marginBottom: 15,
         fontFamily: "Manrope_500Medium"
     },
     content: {
@@ -114,18 +115,23 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
     recipientContainer: {
-        backgroundColor: '#1E1E1E',
-        borderRadius: 8,
-        padding: 12,
+        alignItems: "center",
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        flexDirection: 'row',
+        backgroundColor: '#262429',
+        borderRadius: 22,
         marginBottom: 24,
     },
     label: {
         color: '#888',
-        marginBottom: 4,
+        marginRight: 10,
+        fontFamily: "Manrope_400Regular"
     },
-    input: {
+    recipient: {
         color: 'white',
         fontSize: 16,
+        fontFamily: "Manrope_400Regular"
     },
     amountContainer: {
         flexDirection: 'row',

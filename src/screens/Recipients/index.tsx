@@ -14,36 +14,43 @@ import {
     View,
 } from "react-native";
 import useRecipientStore from "../../storage/recipientStore";
-import { getName, isBasename, getAddress } from "../../utils/basenames";
+import { getName, isBasename, getAddress } from "../../lib/basenames";
 import { isAddress, Address } from "viem";
 import { debounce } from 'lodash';
+import { shortenAddress } from "../../utils/address";
 
+
+type SearchResult = {
+    name: string | null;
+    address: Address;
+}
 
 const RecipientsScreen = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
 
-    type Result = {
-        name: string | null;
-        address: Address;
-    }
-
     const [searchQuery, setSearchQuery] = useState("");
-    const [searchResult, setSearchResult] = useState<Result | null>(null);
+    const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
     const [isTyping, setIsTyping] = useState(false);
 
-    const { setRecipient } = useRecipientStore((state) => ({
-        setRecipient: state.setRecipient,
+    const { setRecipientCrypto } = useRecipientStore((state) => ({
+        setRecipientCrypto: state.setRecipientCrypto,
     }));
 
-    const getSearchResults = async (addressOrBasename: string): Promise<Result | null> => {
+    const getSearchResults = async (addressOrBasename: string): Promise<SearchResult | null> => {
         if (isBasename(addressOrBasename)) {
             const address = await getAddress({ name: addressOrBasename });
+            if (address === null || address === undefined) {
+                return null;
+            }
+
+            setRecipientCrypto({ name: addressOrBasename, address: address as Address });
             return { name: addressOrBasename, address: address as Address };
         }
         if (isAddress(addressOrBasename)) {
             const basename = await getName({ address: addressOrBasename as Address });
 
+            setRecipientCrypto({ name: basename as string, address: addressOrBasename });
             return { name: basename as string, address: addressOrBasename };
         }
         return null;
@@ -62,10 +69,7 @@ const RecipientsScreen = () => {
         []
     );
 
-    const shortenAddress = (address: string) => {
-        if (!address || !isAddress(address)) return "";
-        return `${address.slice(0, 6)}····${address.slice(-4)}`;
-    };
+
 
     useEffect(() => {
         debouncedSearch(searchQuery);
