@@ -15,10 +15,10 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import FaceIdIcon from "../../../assets/face-id.svg";
 import { formatCurrency } from "../../utils/currencyUtils";
 import LoadingScreen from "../../components/Loading";
-import useTransferStore from "../../storage/transferStore";
-import { capitalizeFirstLetter } from "../../utils/string_utils";
 import { shortenAddress } from "../../utils/address";
 import { Address } from "viem";
+import { colors } from "../../styles/colors";
+
 
 
 const SendConfirmationScreen = () => {
@@ -43,8 +43,7 @@ const SendConfirmationScreen = () => {
             });
 
             if (result.success) {
-                //createTransaction();
-                //navigation.navigate("TransactionReceipt");
+
             } else {
                 // Handle authentication failure
                 console.log("Authentication failed");
@@ -58,18 +57,21 @@ const SendConfirmationScreen = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name="arrow-back" size={24} color="white" />
+                    <Ionicons name="chevron-back" size={22} color="white" />
                 </TouchableOpacity>
             </View>
             <View style={styles.content}>
                 <View>
                     <Text style={styles.title}>{t("sendConfirmation.title")}</Text>
                     <Text style={styles.amount}>
-                        {formatCurrency(amount, "USD", true)}
+                        {formatCurrency(amount, "USD")} USDC
                     </Text>
-                    <Text style={styles.recipient}>
-                        {t("sendConfirmation.to")} <Text style={styles.recipientName}>{recipientName}</Text>
-                    </Text>
+                    <View style={styles.recipientContainer}>
+                        <Text style={styles.recipientLabel}>
+                            {t("sendConfirmation.to")}
+                        </Text>
+                        <Text style={styles.recipientName}>{recipientName}</Text>
+                    </View>
                 </View>
 
                 <View style={styles.detailsContainer}>
@@ -81,17 +83,22 @@ const SendConfirmationScreen = () => {
 
                 <View style={styles.detailsContainer}>
                     <View style={styles.detailRow}>
-                        <Text style={styles.detailLabel}>{t("sendConfirmation.amount")}</Text>
-                        <Text style={styles.detailValue}>{amount} USDC</Text>
+                        <Text style={styles.detailLabel}>{t("sendConfirmation.total")}</Text>
+                        <Text style={styles.detailValue}>${formatCurrency(amount, "USD")}</Text>
+                    </View>
+                    <View style={styles.detailRow}>
+                        <Text style={styles.detailLabel}>{t("sendConfirmation.send")} USDC</Text>
+                        <Text style={styles.detailValue}>{amount}</Text>
+                    </View>
+                    <View style={styles.detailRow}>
+                        <Text style={styles.detailLabel}>{t("sendConfirmation.chain")}</Text>
+                        <Text style={styles.detailValue}>Base</Text>
                     </View>
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>{t("sendConfirmation.fee")}</Text>
                         <Text style={styles.detailValue}>0 USDC</Text>
                     </View>
-                    <View style={styles.detailRow}>
-                        <Text style={styles.detailLabel}>{t("sendConfirmation.total")}</Text>
-                        <Text style={styles.detailValue}>{formatCurrency(amount, "USD")} USDC</Text>
-                    </View>
+
                 </View>
 
                 {/* <View style={styles.timerContainer}>
@@ -123,7 +130,7 @@ const SendConfirmationScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000",
+        backgroundColor: "#0D0C0E",
     },
     header: {
         padding: 16,
@@ -145,20 +152,26 @@ const styles = StyleSheet.create({
         color: "#8E8EFF",
         marginBottom: 4,
     },
-    recipient: {
-        fontSize: 22,
+    recipientContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    recipientLabel: {
+        fontSize: 20,
         color: "white",
-        marginBottom: 16,
     },
     recipientName: {
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: "bold",
         color: "white",
+        marginLeft: 8,
+        fontFamily: "Manrope_700Bold"
     },
     detailsContainer: {
-        backgroundColor: "#1C1C1E",
-        borderRadius: 8,
-        padding: 16,
+        backgroundColor: "#19181B",
+        borderRadius: 25,
+        paddingVertical: 20,
+        paddingHorizontal: 20,
         marginBottom: 20,
     },
     detailRow: {
@@ -167,9 +180,13 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     detailLabel: {
-        color: "#666",
+        color: "#96939F",
+        fontFamily: "Manrope_400Regular",
+        fontSize: 14,
     },
     detailValue: {
+        fontSize: 14,
+        fontFamily: "Manrope_500Medium",
         color: "white",
     },
     bottomSection: {
@@ -190,20 +207,20 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     confirmButton: {
-        backgroundColor: "white",
-        borderRadius: 8,
-        padding: 16,
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
         width: '100%',
+        height: 55,
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
     },
     scanIcon: {
         marginRight: 8,
     },
     confirmButtonText: {
         marginLeft: 8, // Add left margin to create space between icon and text
-        color: "black",
+        color: colors.darkHighlight,
         fontWeight: "bold",
     },
 });
