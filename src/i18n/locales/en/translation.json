@@ -44,6 +44,13 @@
     "searchResultLabel": "Found",
     "pasteButtonText": "Paste"
   },
+  "sendCrypto": {
+    "title": "Send",
+    "recipientLabel": "To",
+    "availableLabel": "Available",
+    "continueButton": "Continue",
+    "errorText": "Not enough balance"
+  },
   "sentReceipt": {
     "headerText": "Sent",
     "recipient_label": "to",

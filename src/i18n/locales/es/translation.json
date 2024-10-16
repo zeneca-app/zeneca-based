@@ -44,6 +44,13 @@
     "pasteButtonText": "Pegar",
     "searchPlaceholder": "BaseName o Dirección"
   },
+  "sendCrypto": {
+    "title": "Enviar",
+    "recipientLabel": "A",
+    "availableLabel": "Disponible",
+    "continueButton": "Continuar",
+    "errorText": "No tienes suficiente saldo"
+  },
   "sentReceipt": {
     "headerText": "Enviaste",
     "recipient_label": "a",

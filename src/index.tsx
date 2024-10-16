@@ -25,6 +25,7 @@ import LoginWithEmail from "./screens/Login/LoginWithEmail";
 import EmailOtpValidationScreen from "./screens/Login/EmailOtpValidation";
 import DepositCrypto from "./screens/Deposit/DepositCrypto";
 import Recipients from "./screens/Recipients";
+import Send from "./screens/Send";
 
 const APP_ID = process.env.EXPO_PUBLIC_PRIVY_APP_ID ?? "";
 const CLIENT_ID = process.env.EXPO_PUBLIC_PRIVY_CLIENT_ID ?? "";
@@ -112,6 +113,12 @@ const AppIndex = () => {
                     options={{ headerShown: false }}
                     name="DepositCrypto"
                     component={DepositCrypto}
+                  />
+
+                  <Stack.Screen
+                    options={{ headerShown: false }}
+                    name="Send"
+                    component={Send}
                   />
 
                 </Stack.Navigator>

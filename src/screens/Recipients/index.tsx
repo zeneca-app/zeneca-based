@@ -14,36 +14,43 @@ import {
     View,
 } from "react-native";
 import useRecipientStore from "../../storage/recipientStore";
-import { getName, isBasename, getAddress } from "../../utils/basenames";
+import { getName, isBasename, getAddress } from "../../lib/basenames";
 import { isAddress, Address } from "viem";
 import { debounce } from 'lodash';
+import { shortenAddress } from "../../utils/address";
+import Clipboard from '@react-native-clipboard/clipboard';
 
+type SearchResult = {
+    name: string | null;
+    address: Address;
+}
 
 const RecipientsScreen = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
 
-    type Result = {
-        name: string | null;
-        address: Address;
-    }
-
     const [searchQuery, setSearchQuery] = useState("");
-    const [searchResult, setSearchResult] = useState<Result | null>(null);
+    const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
     const [isTyping, setIsTyping] = useState(false);
 
-    const { setRecipient } = useRecipientStore((state) => ({
-        setRecipient: state.setRecipient,
+    const { setRecipientCrypto } = useRecipientStore((state) => ({
+        setRecipientCrypto: state.setRecipientCrypto,
     }));
 
-    const getSearchResults = async (addressOrBasename: string): Promise<Result | null> => {
+    const getSearchResults = async (addressOrBasename: string): Promise<SearchResult | null> => {
         if (isBasename(addressOrBasename)) {
             const address = await getAddress({ name: addressOrBasename });
+            if (address === null || address === undefined) {
+                return null;
+            }
+
+            setRecipientCrypto({ name: addressOrBasename, address: address as Address });
             return { name: addressOrBasename, address: address as Address };
         }
         if (isAddress(addressOrBasename)) {
             const basename = await getName({ address: addressOrBasename as Address });
 
+            setRecipientCrypto({ name: basename as string, address: addressOrBasename });
             return { name: basename as string, address: addressOrBasename };
         }
         return null;
@@ -62,9 +69,11 @@ const RecipientsScreen = () => {
         []
     );
 
-    const shortenAddress = (address: string) => {
-        if (!address || !isAddress(address)) return "";
-        return `${address.slice(0, 6)}····${address.slice(-4)}`;
+
+    const handlePaste = async () => {
+        const text = await Clipboard.getString();
+        setSearchQuery(text);
+        debouncedSearch(text);
     };
 
     useEffect(() => {
@@ -104,7 +113,7 @@ const RecipientsScreen = () => {
                         <Ionicons name="close" size={22} color="#fff" />
                     </TouchableOpacity>
                 ) : (
-                    <TouchableOpacity style={styles.pasteButton}>
+                    <TouchableOpacity style={styles.pasteButton} onPress={handlePaste}>
                         <Text style={styles.pasteButtonText}>{t("recipients.pasteButtonText")}</Text>
                     </TouchableOpacity>
                 )}
@@ -125,7 +134,7 @@ const RecipientsScreen = () => {
                         <Ionicons name="checkmark-circle" size={22} color="#666" />
                         <Text style={styles.resultLabel}>{t("recipients.searchResultLabel")}</Text>
                     </View>
-                    <TouchableOpacity style={styles.resultItem}>
+                    <TouchableOpacity style={styles.resultItem} onPress={() => navigation.navigate("Send")}>
                         <View style={styles.walletIconContainer}>
                             <Ionicons name="wallet-outline" size={24} color="#666" />
                         </View>

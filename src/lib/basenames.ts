@@ -11,29 +11,15 @@ import { base, mainnet } from "viem/chains";
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from "../constants/basenames";
 import L2ResolverAbi from "../lib/abis/L2ResolverAbi";
 import { getChainPublicClient } from "../lib/pimlico";
-import { isBase } from "./isBase";
-import { isEthereum } from "./isEthereum";
-
-export type Basename = `${string}.base.eth`;
-
-/**
- * Note: exported as public Type
- */
-export type GetAddress = {
-  name: string | Basename;
-  chain?: Chain;
-};
-
-export type GetName = {
-  address: Address;
-  chain?: Chain;
-};
-
-/**
- * Note: exported as public Type
- */
-export type GetAddressReturnType = Address | null;
-export type GetNameReturnType = string | Basename | null;
+import {
+  Basename,
+  GetAddress,
+  GetAddressReturnType,
+  GetName,
+  GetNameReturnType,
+} from "../lib/types/basenames";
+import { isBase } from "../lib/utils/isBase";
+import { isEthereum } from "../lib/utils/isEthereum";
 
 export const BASENAME_L2_RESOLVER_ADDRESS =
   "0xC6d566A56A1aFf6508b41f6c90ff131615583BCD";
@@ -111,26 +97,25 @@ export const convertReverseNodeToBytes = (
   const baseReverseNode = namehash(
     `${chainCoinType.toLocaleUpperCase()}.reverse`,
   );
-  console.log("baseReverseNode", baseReverseNode);
+
   const addressReverseNode = keccak256(
     encodePacked(["bytes32", "bytes32"], [baseReverseNode, addressNode]),
   );
-  console.log("addressReverseNode", addressReverseNode);
+
   return addressReverseNode;
 };
 
 export async function getBasename(address: Address) {
   try {
-    console.log("address", address);
     const addressReverseNode = convertReverseNodeToBytes(address, base.id);
-    console.log("addressReverseNode", addressReverseNode);
+
     const basename = await baseClient.readContract({
       abi: L2ResolverAbi,
       address: BASENAME_L2_RESOLVER_ADDRESS,
       functionName: "name",
       args: [addressReverseNode],
     });
-    console.log("basename", basename);
+
     if (basename) {
       return basename as Basename;
     }
