@@ -125,7 +125,7 @@ const RecipientsScreen = () => {
                         <Ionicons name="checkmark-circle" size={22} color="#666" />
                         <Text style={styles.resultLabel}>{t("recipients.searchResultLabel")}</Text>
                     </View>
-                    <TouchableOpacity style={styles.resultItem}>
+                    <TouchableOpacity style={styles.resultItem} onPress={() => navigation.navigate("Send")}>
                         <View style={styles.walletIconContainer}>
                             <Ionicons name="wallet-outline" size={24} color="#666" />
                         </View>

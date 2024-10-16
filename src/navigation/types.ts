@@ -10,6 +10,7 @@ export type RootStackParamList = {
   EmailOtpValidation: undefined;
   DepositCrypto: undefined;
   Recipients: undefined;
+  Send: undefined;
 };
 
 declare global {
