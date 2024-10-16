@@ -48,7 +48,8 @@
     "title": "Enviar",
     "recipientLabel": "A",
     "availableLabel": "Disponible",
-    "continueButton": "Continuar"
+    "continueButton": "Continuar",
+    "errorText": "No tienes suficiente saldo"
   },
   "sentReceipt": {
     "headerText": "Enviaste",

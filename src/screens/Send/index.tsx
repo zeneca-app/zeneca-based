@@ -20,7 +20,8 @@ const SendScreen = () => {
         recipientCrypto: state.recipientCrypto,
     }));
 
-    const [balance, setBalance] = useState(0);
+    const [balance, setBalance] = useState(200);
+    const hasEnoughBalance = balance >= parseFloat(amount);
 
     const handleKeyPress = (key: string | number) => {
         if (key === 'backspace') {
@@ -73,8 +74,10 @@ const SendScreen = () => {
                             {amount}
                         </Text>
                     </View>
+                    <View style={styles.errorContainer}>
+                        <Text style={!hasEnoughBalance ? styles.errorText : styles.errorInvisibleText}>{t("sendCrypto.errorText")}</Text>
+                    </View>
                 </View>
-
 
                 <View style={styles.keypadContainer}>
                     <Keypad onKeyPress={handleKeyPress} />
@@ -173,6 +176,18 @@ const styles = StyleSheet.create({
     },
     balanceLabel: {
         color: '#96939F',
+        fontSize: 14,
+    },
+    errorContainer: {
+        alignItems: 'center',
+        marginBottom: 24,
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 14,
+    },
+    errorInvisibleText: {
+        color: 'transparent',
         fontSize: 14,
     },
     maxButton: {

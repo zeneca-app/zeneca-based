@@ -48,7 +48,8 @@
     "title": "Send",
     "recipientLabel": "To",
     "availableLabel": "Available",
-    "continueButton": "Continue"
+    "continueButton": "Continue",
+    "errorText": "Not enough balance"
   },
   "sentReceipt": {
     "headerText": "Sent",
