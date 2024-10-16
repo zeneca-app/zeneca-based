@@ -146,7 +146,7 @@ export const isBasename = (username: string) => {
 
 export const getName = async ({
   address,
-  chain = mainnet,
+  chain = base,
 }: GetName): Promise<GetNameReturnType> => {
   const chainIsBase = isBase({ chainId: chain.id });
   const chainIsEthereum = isEthereum({ chainId: chain.id });
@@ -174,6 +174,7 @@ export const getName = async ({
       }
     } catch (_error) {
       // This is a best effort attempt, so we don't need to do anything here.
+      console.log("Error getting name for address", address, _error);
     }
   }
 

@@ -11,6 +11,7 @@ export type RootStackParamList = {
   DepositCrypto: undefined;
   Recipients: undefined;
   Send: undefined;
+  SendConfirmation: undefined;
 };
 
 declare global {

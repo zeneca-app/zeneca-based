@@ -51,6 +51,17 @@
     "continueButton": "Continuar",
     "errorText": "No tienes suficiente saldo"
   },
+  "sendConfirmation": {
+    "title": "Confirmar",
+    "to": "A",
+    "accountNumber": "Dirección",
+    "amount": "Cantidad",
+    "fee": "Comisión",
+    "total": "Total",
+    "disclaimer": "Una vez confirmada, la transacción no se puede deshacer",
+    "confirmButtonText": "Confirmar",
+    "pendingStatus": "Pendiente"
+  },
   "sentReceipt": {
     "headerText": "Enviaste",
     "recipient_label": "a",

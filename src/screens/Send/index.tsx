@@ -47,6 +47,10 @@ const SendScreen = () => {
         }
     }, [amount]);
 
+    const handleContinue = () => {
+        navigation.navigate("SendConfirmation");
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -81,7 +85,7 @@ const SendScreen = () => {
 
                 <View style={styles.keypadContainer}>
                     <Keypad onKeyPress={handleKeyPress} />
-                    <TouchableOpacity style={styles.continueButton}>
+                    <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
                         <Text style={styles.continueButtonText}>{t("sendCrypto.continueButton")}</Text>
                     </TouchableOpacity>
                 </View>

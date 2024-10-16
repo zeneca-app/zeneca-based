@@ -51,6 +51,17 @@
     "continueButton": "Continue",
     "errorText": "Not enough balance"
   },
+  "sendConfirmation": {
+    "title": "Confirm",
+    "to": "To",
+    "accountNumber": "Address",
+    "amount": "Amount",
+    "fee": "Fee",
+    "total": "Total",
+    "disclaimer": "Once confirmed, the transaction cannot be undone",
+    "confirmButtonText": "Confirm",
+    "pendingStatus": "Pending"
+  },
   "sentReceipt": {
     "headerText": "Sent",
     "recipient_label": "to",
