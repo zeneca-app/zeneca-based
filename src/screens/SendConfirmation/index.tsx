@@ -42,18 +42,15 @@ const SendConfirmationScreen = () => {
     const chain = useChainStore((state) => state.chain);
     const wallet = useEmbeddedWallet();
 
-    const isTransactionPending = false
     const amount = transferCrypto?.amount!
     const recipientAddress = recipientCrypto?.address as Address
     const recipientName = recipientCrypto?.name ?? shortenAddress(recipientAddress)
-
 
 
     const sendPayment = async () => {
         try {
             setIsLoadingTransfer(true)
             const signerAddress = wallet?.account?.address as Address;
-            console.log("signerAddress", signerAddress)
             const smartAccountClient = await getPimlicoSmartAccountClient(signerAddress, chain, wallet);
             const tx = await transferUSDC(smartAccountClient, amount, chain, recipientAddress);
             setIsLoadingTransfer(false);
@@ -132,30 +129,23 @@ const SendConfirmationScreen = () => {
 
                 </View>
 
-                {/* <View style={styles.timerContainer}>
-                    {!isTransactionPending && (
-                        <Text style={styles.timer}>{t("quoteConfirmation.timerDescription")} {formatTime(timeLeft)}</Text>
-                    )}
-                </View> */}
-
                 <View style={styles.bottomSection}>
                     <Text style={styles.warning}>{t("sendConfirmation.disclaimer")}</Text>
-                    {!isTransactionPending && (
-                        <TouchableOpacity
-                            disabled={isTransactionPending}
-                            onPress={handleCreateTransaction}
+                    <TouchableOpacity
+                        disabled={isLoadingTransfer}
+                        onPress={handleCreateTransaction}
+                        style={[
+                            styles.confirmButton,
+                            !canContinue && styles.confirmButtonDisabled
+                        ]} >
+                        <FaceIdIcon width={24} height={24} />
+                        <Text
                             style={[
-                                styles.confirmButton,
-                                !canContinue && styles.confirmButtonDisabled
-                            ]} >
-                            <FaceIdIcon width={24} height={24} />
-                            <Text
-                                style={[
-                                    styles.confirmButtonText,
-                                    !canContinue && styles.confirmButtonTextDisabled
-                                ]}
-                            >{t("sendConfirmation.confirmButtonText")}</Text>
-                        </TouchableOpacity>)}
+                                styles.confirmButtonText,
+                                !canContinue && styles.confirmButtonTextDisabled
+                            ]}
+                        >{t("sendConfirmation.confirmButtonText")}</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
             <LoadingScreen isVisible={isLoadingTransfer} text={t("sendConfirmation.pendingStatus")} />
