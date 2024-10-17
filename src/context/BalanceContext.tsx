@@ -4,6 +4,7 @@ import { Address } from 'viem';
 import { useChainStore } from '../storage/chainStore';
 import { useWalletStore } from '../storage/walletStore';
 import tokens from '../constants/tokens';
+import { QueryClient } from '@tanstack/react-query';
 
 interface BalanceContextType {
     balanceFormatted: string;

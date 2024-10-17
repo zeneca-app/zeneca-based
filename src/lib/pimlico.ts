@@ -62,6 +62,7 @@ export const getPimlicoSmartAccountClient = async (
     factoryAddress: "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985",
   });
   return createSmartAccountClient({
+    // @ts-ignore
     account: simpleAccount,
     entryPoint: entryPoint07Address,
     chain,

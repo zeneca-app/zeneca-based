@@ -62,8 +62,8 @@
     "react-native-svg": "15.2.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-webview": "^13.12.3",
-    "viem": "^2.9.8",
-    "wagmi": "^2.5.12",
+    "viem": "^2.21.28",
+    "wagmi": "^2.12.19",
     "zod": "^3.23.8",
     "zustand": "^4.5.5"
   },

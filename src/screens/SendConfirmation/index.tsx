@@ -25,6 +25,9 @@ import { transferUSDC, getPimlicoSmartAccountClient } from "../../lib/pimlico"
 import { useWalletStore } from "../../storage/walletStore";
 import { useChainStore } from "../../storage/chainStore";
 import { useEmbeddedWallet } from "@privy-io/expo";
+import { useBalance } from "../../context/BalanceContext";
+
+
 
 const SendConfirmationScreen = () => {
     const [isLoadingTransfer, setIsLoadingTransfer] = useState(false);
@@ -38,6 +41,8 @@ const SendConfirmationScreen = () => {
     const { transferCrypto } = useTransferStore((state) => ({
         transferCrypto: state.transferCrypto,
     }));
+
+    const { refetchBalance } = useBalance()
 
     const chain = useChainStore((state) => state.chain);
     const wallet = useEmbeddedWallet();
@@ -59,6 +64,7 @@ const SendConfirmationScreen = () => {
         } finally {
             setIsLoadingTransfer(false);
             navigation.navigate("SendSuccess")
+            refetchBalance()
         }
     }
 
