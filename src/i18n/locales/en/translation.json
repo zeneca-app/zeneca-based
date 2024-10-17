@@ -74,6 +74,12 @@
     "total": "Total",
     "doneButtonText": "Done"
   },
+  "sendSuccess": {
+    "title": "¡Done!",
+    "subtitle": "We are processing your transaction.\nIt will be available soon",
+    "doneButton": "Done",
+    "viewReceiptButton": "View receipt"
+  },
   "faceId": {
     "prompt": "Confirm with your Face ID",
     "fallback": "Use passcode"

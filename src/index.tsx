@@ -22,6 +22,7 @@ import DepositCrypto from "./screens/Deposit/DepositCrypto";
 import Recipients from "./screens/Recipients";
 import Send from "./screens/Send";
 import SendConfirmation from "./screens/SendConfirmation";
+import SendSuccess from "./screens/SendSuccess";
 import { Providers } from "./components/Providers";
 
 
@@ -107,6 +108,12 @@ const AppIndex = () => {
                 options={{ headerShown: false }}
                 name="SendConfirmation"
                 component={SendConfirmation}
+              />
+
+              <Stack.Screen
+                options={{ headerShown: false }}
+                name="SendSuccess"
+                component={SendSuccess}
               />
 
             </Stack.Navigator>

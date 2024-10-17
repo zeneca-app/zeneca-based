@@ -56,6 +56,7 @@ const SendScreen = () => {
     }, [amount]);
 
     const handleContinue = () => {
+        if (!canContinue) return;
         setTransferCrypto({
             name: recipientCrypto?.name,
             address: recipientCrypto?.address as Address,

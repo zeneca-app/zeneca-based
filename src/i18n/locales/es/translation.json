@@ -63,6 +63,12 @@
     "confirmButtonText": "Confirmar",
     "pendingStatus": "Pendiente"
   },
+  "sendSuccess": {
+    "title": "¡Listo!",
+    "subtitle": "Estamos procesando tu transacción.\nPronto estará disponible",
+    "doneButton": "Entendido",
+    "viewReceiptButton": "Ver comprobante"
+  },
   "sentReceipt": {
     "headerText": "Enviaste",
     "recipient_label": "a",

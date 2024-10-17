@@ -21,9 +21,13 @@ import { colors } from "../../styles/colors";
 import useTransferStore from "../../storage/transferStore";
 import BaseIcon from "../../../assets/base-logo.svg";
 import USDCIcon from "../../../assets/usdc.svg";
-
+import { transferUSDC, getPimlicoSmartAccountClient } from "../../lib/pimlico"
+import { useWalletStore } from "../../storage/walletStore";
+import { useChainStore } from "../../storage/chainStore";
+import { useEmbeddedWallet } from "@privy-io/expo";
 
 const SendConfirmationScreen = () => {
+    const [isLoadingTransfer, setIsLoadingTransfer] = useState(false);
     const navigation = useNavigation();
     const { t } = useTranslation();
 
@@ -35,10 +39,31 @@ const SendConfirmationScreen = () => {
         transferCrypto: state.transferCrypto,
     }));
 
+    const chain = useChainStore((state) => state.chain);
+    const wallet = useEmbeddedWallet();
+
     const isTransactionPending = false
     const amount = transferCrypto?.amount!
-    const accountNumber = shortenAddress(recipientCrypto?.address as Address)
-    const recipientName = recipientCrypto?.name ?? accountNumber
+    const recipientAddress = recipientCrypto?.address as Address
+    const recipientName = recipientCrypto?.name ?? shortenAddress(recipientAddress)
+
+
+
+    const sendPayment = async () => {
+        try {
+            setIsLoadingTransfer(true)
+            const signerAddress = wallet?.account?.address as Address;
+            console.log("signerAddress", signerAddress)
+            const smartAccountClient = await getPimlicoSmartAccountClient(signerAddress, chain, wallet);
+            const tx = await transferUSDC(smartAccountClient, amount, chain, recipientAddress);
+            setIsLoadingTransfer(false);
+        } catch (error) {
+            console.error("Error during transaction:", error);
+        } finally {
+            setIsLoadingTransfer(false);
+            navigation.navigate("SendSuccess")
+        }
+    }
 
     const handleCreateTransaction = async () => {
         try {
@@ -48,6 +73,7 @@ const SendConfirmationScreen = () => {
             });
 
             if (result.success) {
+                sendPayment()
 
             } else {
                 // Handle authentication failure
@@ -132,7 +158,7 @@ const SendConfirmationScreen = () => {
                         </TouchableOpacity>)}
                 </View>
             </View>
-            <LoadingScreen isVisible={isTransactionPending} text={t("sendConfirmation.pendingStatus")} />
+            <LoadingScreen isVisible={isLoadingTransfer} text={t("sendConfirmation.pendingStatus")} />
         </SafeAreaView >
     );
 };
