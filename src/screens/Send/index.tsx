@@ -11,7 +11,7 @@ import { useWalletStore } from "../../storage/walletStore";
 import { shortenAddress } from "../../utils/address";
 import { Address } from "viem";
 import { formatCurrency } from "../../utils/currencyUtils";
-
+import { useBalance } from "../../context/BalanceContext";
 
 const SendScreen = () => {
     const { t } = useTranslation();
@@ -28,8 +28,8 @@ const SendScreen = () => {
         recipientCrypto: state.recipientCrypto,
     }));
 
-    const [balance, setBalance] = useState(200);
-    const hasEnoughBalance = balance >= parseFloat(amount);
+    const { balanceFormatted: balance } = useBalance();
+
 
     const handleKeyPress = (key: string | number) => {
         if (key === 'backspace') {
@@ -66,6 +66,10 @@ const SendScreen = () => {
         navigation.navigate("SendConfirmation");
     }
 
+    const hasEnoughBalance = Number(balance) >= Number(amount);
+
+    const canContinue = hasEnoughBalance && amount !== "0";
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -100,8 +104,14 @@ const SendScreen = () => {
 
                 <View style={styles.keypadContainer}>
                     <Keypad onKeyPress={handleKeyPress} />
-                    <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-                        <Text style={styles.continueButtonText}>{t("sendCrypto.continueButton")}</Text>
+                    <TouchableOpacity style={[
+                        styles.continueButton,
+                        !canContinue && styles.continueButtonDisabled
+                    ]} onPress={handleContinue}>
+                        <Text style={[
+                            styles.continueButtonText,
+                            !canContinue && styles.continueButtonTextDisabled
+                        ]}>{t("sendCrypto.continueButton")}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -112,7 +122,7 @@ const SendScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#19181B",
+        backgroundColor: "#0D0C0E",
     },
     header: {
         flexDirection: "row",
@@ -234,6 +244,14 @@ const styles = StyleSheet.create({
     continueButtonText: {
         color: colors.darkHighlight,
         fontSize: 16,
+        fontFamily: "Manrope_500Medium",
+    },
+    continueButtonDisabled: {
+        backgroundColor: "rgba(215, 191, 250, 0.17)",
+    },
+    continueButtonTextDisabled: {
+        color: "rgba(233, 220, 251, 0.45)",
+        fontSize: 18,
         fontFamily: "Manrope_500Medium",
     },
 });

@@ -1,32 +1,19 @@
 import { StyleSheet, View, Text } from "react-native";
-import { useBalance } from "wagmi";
-import { Address } from "viem"
 import { useTranslation } from "react-i18next";
-import tokens from "../constants/tokens";
 import { useChainStore } from "../storage/chainStore";
 import { useWalletStore } from "../storage/walletStore";
 import { formatCurrency } from "../utils/currencyUtils";
-
+import { useBalance } from "../context/BalanceContext";
 
 const Balance = () => {
-    const chain = useChainStore((state) => state.chain);
-
     const { t } = useTranslation();
-    const smartAccountAddress = useWalletStore((state) => state.address);
 
-    const {
-        data: balance,
-        isLoading: isLoadingBalance,
-        refetch: refetchBalance,
-    } = useBalance({
-        address: smartAccountAddress,
-        token: tokens.USDC[chain.id] as Address,
-    });
+    const { balanceFormatted, isLoadingBalance, refetchBalance } = useBalance();
 
     return (<View style={styles.balanceContainer}>
         <Text style={styles.currencySign}>$</Text>
         <Text style={styles.balanceAmount}>
-            {formatCurrency(Number(balance?.formatted ?? "0"), "USD")}
+            {formatCurrency(Number(balanceFormatted), "USD")}
         </Text>
         <Text style={styles.balanceUsd}>{t("home.currency")}</Text>
 

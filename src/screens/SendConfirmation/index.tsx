@@ -22,6 +22,7 @@ import useTransferStore from "../../storage/transferStore";
 import BaseIcon from "../../../assets/base-logo.svg";
 import USDCIcon from "../../../assets/usdc.svg";
 
+
 const SendConfirmationScreen = () => {
     const navigation = useNavigation();
     const { t } = useTranslation();
@@ -56,6 +57,7 @@ const SendConfirmationScreen = () => {
             console.error("Error during authentication:", error);
         }
     };
+    const canContinue = true
 
     return (
         <SafeAreaView style={styles.container}>
@@ -77,8 +79,6 @@ const SendConfirmationScreen = () => {
                         <Text style={styles.recipientName}>{recipientName}</Text>
                     </View>
                 </View>
-
-
 
                 <View style={styles.detailsContainer}>
                     <View style={styles.detailRow}>
@@ -118,11 +118,16 @@ const SendConfirmationScreen = () => {
                         <TouchableOpacity
                             disabled={isTransactionPending}
                             onPress={handleCreateTransaction}
-                            style={styles.confirmButton}>
+                            style={[
+                                styles.confirmButton,
+                                !canContinue && styles.confirmButtonDisabled
+                            ]} >
                             <FaceIdIcon width={24} height={24} />
                             <Text
-                                style={styles.confirmButtonText}
-
+                                style={[
+                                    styles.confirmButtonText,
+                                    !canContinue && styles.confirmButtonTextDisabled
+                                ]}
                             >{t("sendConfirmation.confirmButtonText")}</Text>
                         </TouchableOpacity>)}
                 </View>
@@ -146,9 +151,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     title: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "white",
+        fontSize: 32,
+        color: 'white',
+        fontFamily: "Manrope_500Medium",
         marginBottom: 8,
     },
     amount: {
@@ -217,6 +222,9 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         paddingHorizontal: 20,
     },
+    scanIcon: {
+        marginRight: 8,
+    },
     confirmButton: {
         flexDirection: 'row',
         width: '100%',
@@ -226,13 +234,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "white",
     },
-    scanIcon: {
-        marginRight: 8,
-    },
     confirmButtonText: {
         marginLeft: 8, // Add left margin to create space between icon and text
         color: colors.darkHighlight,
         fontWeight: "bold",
+    },
+    confirmButtonDisabled: {
+        backgroundColor: "rgba(215, 191, 250, 0.17)",
+    },
+    confirmButtonTextDisabled: {
+        color: "rgba(233, 220, 251, 0.45)",
+        fontSize: 18,
+        fontFamily: "Manrope_500Medium",
     },
 });
 
