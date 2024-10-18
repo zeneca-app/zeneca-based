@@ -32,7 +32,8 @@
     "testflight": {
       "env": {
         "EXPO_PUBLIC_PRIVY_APP_ID": "${EXPO_PUBLIC_PRIVY_APP_ID}",
-        "EXPO_PUBLIC_PRIVY_CLIENT_ID": "${EXPO_PUBLIC_PRIVY_CLIENT_ID}"
+        "EXPO_PUBLIC_PRIVY_CLIENT_ID": "${EXPO_PUBLIC_PRIVY_CLIENT_ID}",
+        "EXPO_PUBLIC_PIMLICO_API_KEY": "${EXPO_PUBLIC_PIMLICO_API_KEY}"
       },
       "extends": "production",
       "distribution": "internal"
