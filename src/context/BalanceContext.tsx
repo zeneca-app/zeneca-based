@@ -24,7 +24,7 @@ export const BalanceProvider: React.FC<{ children: ReactNode }> = ({ children })
         isLoading: isLoadingBalance,
         refetch: refetchBalance,
     } = useWagmiBalance({
-        address: smartAccountAddress || "0x9431AC46710F81e560f896b9BD385d0518733ca0",
+        address: smartAccountAddress,
         token: tokens.USDC[chain.id] as Address,
     });
 
