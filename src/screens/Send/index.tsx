@@ -6,22 +6,30 @@ import { useTranslation } from "react-i18next";
 import { colors } from "../../styles/colors";
 import Keypad from "../../components/Keypad";
 import useRecipientStore from "../../storage/recipientStore";
+import useTransferStore from "../../storage/transferStore";
+import { useWalletStore } from "../../storage/walletStore";
 import { shortenAddress } from "../../utils/address";
 import { Address } from "viem";
 import { formatCurrency } from "../../utils/currencyUtils";
+import { useBalance } from "../../context/BalanceContext";
 
 const SendScreen = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
+    const { setTransferCrypto } = useTransferStore((state) => ({
+        transferCrypto: state.transferCrypto,
+        setTransferCrypto: state.setTransferCrypto,
+    }));
     const [amount, setAmount] = useState('0');
     const [fontSize, setFontSize] = useState(48);
+    const smartAccountAddress = useWalletStore((state) => state.address);
 
     const { recipientCrypto } = useRecipientStore((state) => ({
         recipientCrypto: state.recipientCrypto,
     }));
 
-    const [balance, setBalance] = useState(200);
-    const hasEnoughBalance = balance >= parseFloat(amount);
+    const { balanceFormatted: balance } = useBalance();
+
 
     const handleKeyPress = (key: string | number) => {
         if (key === 'backspace') {
@@ -46,6 +54,22 @@ const SendScreen = () => {
             setFontSize(60);
         }
     }, [amount]);
+
+    const handleContinue = () => {
+        if (!canContinue) return;
+        setTransferCrypto({
+            name: recipientCrypto?.name,
+            address: recipientCrypto?.address as Address,
+            amount: parseFloat(amount),
+            from_address: smartAccountAddress as Address,
+            to_address: recipientCrypto?.address as Address,
+        });
+        navigation.navigate("SendConfirmation");
+    }
+
+    const hasEnoughBalance = Number(balance) >= Number(amount);
+
+    const canContinue = hasEnoughBalance && amount !== "0";
 
     return (
         <SafeAreaView style={styles.container}>
@@ -81,8 +105,14 @@ const SendScreen = () => {
 
                 <View style={styles.keypadContainer}>
                     <Keypad onKeyPress={handleKeyPress} />
-                    <TouchableOpacity style={styles.continueButton}>
-                        <Text style={styles.continueButtonText}>{t("sendCrypto.continueButton")}</Text>
+                    <TouchableOpacity style={[
+                        styles.continueButton,
+                        !canContinue && styles.continueButtonDisabled
+                    ]} onPress={handleContinue}>
+                        <Text style={[
+                            styles.continueButtonText,
+                            !canContinue && styles.continueButtonTextDisabled
+                        ]}>{t("sendCrypto.continueButton")}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -93,7 +123,7 @@ const SendScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#19181B",
+        backgroundColor: "#0D0C0E",
     },
     header: {
         flexDirection: "row",
@@ -101,8 +131,7 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     backButton: {
-        marginLeft: 20,
-        marginBottom: 20,
+
     },
     title: {
         marginLeft: 25,
@@ -216,6 +245,14 @@ const styles = StyleSheet.create({
     continueButtonText: {
         color: colors.darkHighlight,
         fontSize: 16,
+        fontFamily: "Manrope_500Medium",
+    },
+    continueButtonDisabled: {
+        backgroundColor: "rgba(215, 191, 250, 0.17)",
+    },
+    continueButtonTextDisabled: {
+        color: "rgba(233, 220, 251, 0.45)",
+        fontSize: 18,
         fontFamily: "Manrope_500Medium",
     },
 });

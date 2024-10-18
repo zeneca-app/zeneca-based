@@ -10,7 +10,6 @@ import useAuthStore from "../../storage/authStore";
 import { colors } from "../../styles/colors";
 import { getPimlicoSmartAccountClient } from "../../lib/pimlico";
 import { useChainStore } from "../../storage/chainStore";
-import { signMessageWithPrivy } from "../../lib/privy";
 import { baseSepolia } from "viem/chains";
 import { useWalletStore } from "../../storage/walletStore";
 
@@ -40,11 +39,7 @@ const LoginOptions: React.FC = () => {
 
     const { state, login } = useLoginWithOAuth({
         onSuccess: (user, isNewUser) => {
-            console.log(user, isNewUser);
-            console.log("New Actual Logged in", {
-                user: JSON.stringify(user),
-                isNewUser,
-            });
+            console.log("success")
         },
         onError: (error) => {
             console.log("error", error);
@@ -56,26 +51,19 @@ const LoginOptions: React.FC = () => {
         console.log("state", state);
         if (state.status === "done" && user) {
             try {
-                console.log("user", user);
-                //setIsLoading(true);
                 handleConnection(user)
                     .then(() => {
-                        //setIsLoading(false);
-                        //router.push(path);
+
                         console.log("success");
                         successLogin();
                     })
                     .catch((e) => {
                         console.error("Error Handling Connection", e);
-                        //setIsLoading(false);
-                        //setLoginStatus(LoginStatus.CODE_ERROR);
-                        //router.replace("/");
 
                         throw new Error(e);
                     });
             } catch (e) {
                 console.log("Error Connecting Stuffs", e);
-                //router.replace("/");
                 throw new Error(e as any);
             }
         } else if (state.status === "initial") {
@@ -85,23 +73,11 @@ const LoginOptions: React.FC = () => {
 
     const handleConnection = useCallback(
         async (user: PrivyUser): Promise<void> => {
-            console.log("handleConnection", user);
             if (isNotCreated(wallet)) {
-                console.log("Creating wallet");
                 await wallet.create!();
             }
 
             const address = getUserEmbeddedWallet(user)?.address;
-            console.log("address", address);
-
-            //const { message, nonce } = await getAuthNonce();
-
-            const provider = await wallet.getProvider!();
-
-            //const signedMessage = await signMessageWithPrivy(
-            //    provider,
-            //    message as `0x${string}`
-            //);
 
             const smartAccount = await getPimlicoSmartAccountClient(
                 address as `0x${string}`,
@@ -109,33 +85,8 @@ const LoginOptions: React.FC = () => {
                 wallet
             );
 
-            console.log("smartAccount address", smartAccount?.account?.address);
             setAddress(smartAccount?.account?.address as `0x${string}`);
-
-
-            /* 
-            const { isNewUser, token } = await signIn({
-                address: address || getUserEmbeddedWallet(user)?.address!,
-                smartAccountAddress: smartAccount?.account?.address,
-                signature: signedMessage!,
-                nonce,
-            }); */
-
-
-            //await SecureStore.setItemAsync(`token-${address}`, token);
-            //if (isNewUser) {
-            //    return "/onboarding";
-            //}
-            //setLoadingMessage("Fetching user data...");
-
-            //const userData = await fetchUserData(token);
-
             setChain(baseSepolia);
-            //if (!userData.username) {
-            //    return "/onboarding";
-            //} else {
-            //    return "/app/home";
-            //}
         },
         [user]
     );

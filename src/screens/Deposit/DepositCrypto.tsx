@@ -6,14 +6,15 @@ import { toast } from "burnt";
 import Clipboard from '@react-native-clipboard/clipboard';
 import BaseLogo from '../../../assets/base-logo.svg';
 import { useTranslation } from 'react-i18next';
-import { useEmbeddedWallet, isConnected, needsRecovery, isNotCreated, usePrivy } from '@privy-io/expo';
-
+import { useWalletStore } from '../../storage/walletStore';
+import { shortenAddress } from '../../utils/address';
 
 const DepositCrypto = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
+    const smartAccountAddress = useWalletStore((state) => state.address);
 
-    const walletAddress = '0x02C48c15...fcC18BA032';
+    const walletAddress = smartAccountAddress;
 
     const copyToClipboard = () => {
         Clipboard.setString(walletAddress);
@@ -44,7 +45,7 @@ const DepositCrypto = () => {
                 <View style={styles.addressContainer}>
                     <Text style={styles.addressLabel}>{t("depositCrypto.addressLabel")}</Text>
                     <View style={styles.addressRow}>
-                        <Text style={styles.address}>{walletAddress}</Text>
+                        <Text style={styles.address}>{shortenAddress(walletAddress)}</Text>
                         <TouchableOpacity style={styles.copyButton} onPress={copyToClipboard}>
                             <Ionicons name="copy-outline" size={20} color="white" />
                         </TouchableOpacity>

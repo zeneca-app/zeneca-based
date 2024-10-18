@@ -166,13 +166,13 @@ const styles = StyleSheet.create({
         padding: 16,
         alignItems: "center",
     },
-    continueButtonDisabled: {
-        backgroundColor: "rgba(215, 191, 250, 0.17)",
-    },
     continueButtonText: {
         color: "black",
         fontSize: 18,
         fontFamily: "Manrope_500Medium",
+    },
+    continueButtonDisabled: {
+        backgroundColor: "rgba(215, 191, 250, 0.17)",
     },
     continueButtonTextDisabled: {
         color: "rgba(233, 220, 251, 0.45)",

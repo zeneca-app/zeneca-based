@@ -63,8 +63,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 40,
         borderRadius: 20,
         alignItems: 'center',
-        width: width - 40,
-
+        width: '100%',
     },
     loadingText: {
         color: '#fff',

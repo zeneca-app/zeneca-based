@@ -51,6 +51,18 @@
     "continueButton": "Continue",
     "errorText": "Not enough balance"
   },
+  "sendConfirmation": {
+    "title": "Confirm",
+    "to": "To",
+    "accountNumber": "Address",
+    "send": "Send",
+    "chain": "Chain",
+    "fee": "Fee",
+    "total": "Total",
+    "disclaimer": "Once confirmed, the transaction cannot be undone",
+    "confirmButtonText": "Confirm",
+    "pendingStatus": "Pending"
+  },
   "sentReceipt": {
     "headerText": "Sent",
     "recipient_label": "to",
@@ -61,6 +73,12 @@
     "fee": "Fee",
     "total": "Total",
     "doneButtonText": "Done"
+  },
+  "sendSuccess": {
+    "title": "¡Done!",
+    "subtitle": "We are processing your transaction.\nIt will be available soon",
+    "doneButton": "Done",
+    "viewReceiptButton": "View receipt"
   },
   "faceId": {
     "prompt": "Confirm with your Face ID",

@@ -51,6 +51,24 @@
     "continueButton": "Continuar",
     "errorText": "No tienes suficiente saldo"
   },
+  "sendConfirmation": {
+    "title": "Confirmar",
+    "to": "A",
+    "accountNumber": "Dirección",
+    "send": "Enviar",
+    "chain": "Red",
+    "fee": "Comisión",
+    "total": "Total",
+    "disclaimer": "Una vez confirmada, la transacción no se puede deshacer",
+    "confirmButtonText": "Confirmar",
+    "pendingStatus": "Pendiente"
+  },
+  "sendSuccess": {
+    "title": "¡Listo!",
+    "subtitle": "Estamos procesando tu transacción.\nPronto estará disponible",
+    "doneButton": "Entendido",
+    "viewReceiptButton": "Ver comprobante"
+  },
   "sentReceipt": {
     "headerText": "Enviaste",
     "recipient_label": "a",

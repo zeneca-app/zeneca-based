@@ -62,6 +62,7 @@ export const getPimlicoSmartAccountClient = async (
     factoryAddress: "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985",
   });
   return createSmartAccountClient({
+    // @ts-ignore
     account: simpleAccount,
     entryPoint: entryPoint07Address,
     chain,
@@ -84,7 +85,7 @@ export const transferUSDC = async (
     throw new Error("Smart account client not found");
   }
   const USDC_ADDRESS = tokens.USDC[chain.id] as Address;
-  return await smartAccountClient?.sendTransaction({
+  const tx = await smartAccountClient?.sendTransaction({
     to: USDC_ADDRESS,
     value: BigInt(0),
     data: encodeFunctionData({
@@ -93,4 +94,5 @@ export const transferUSDC = async (
       args: [toAddress as Address, BigInt(amount * 10 ** 6)],
     }),
   });
+  return tx;
 };

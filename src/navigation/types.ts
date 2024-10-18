@@ -4,13 +4,14 @@ export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
   TransactionReceipt: undefined;
-  SendSuccess: undefined;
   LoginOptions: undefined;
   LoginWithEmail: undefined;
   EmailOtpValidation: undefined;
   DepositCrypto: undefined;
   Recipients: undefined;
   Send: undefined;
+  SendConfirmation: undefined;
+  SendSuccess: undefined;
 };
 
 declare global {

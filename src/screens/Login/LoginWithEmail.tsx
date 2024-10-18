@@ -37,7 +37,7 @@ const LoginWithEmail = () => {
     });
 
     const goToNextScreen = () => {
-        navigation.navigate("KYCPreview");
+        navigation.navigate("Home");
     };
 
     const onSubmit = (data: FormData) => {
